@@ -1,4 +1,5 @@
-
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,14 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 	.AddEntityFrameworkStores<BankAppDataV2Context>();
 builder.Services.AddRazorPages();
 builder.Services.AddTransient<DataInitializer>();
+
+var containerBuilder = new ContainerBuilder();
+
+containerBuilder.Populate(builder.Services);
+
+var container = containerBuilder.Build();
+
+builder.Services.AddSingleton<IServiceProvider>(container.Resolve<IServiceProvider>());
 
 var app = builder.Build();
 
