@@ -1,4 +1,4 @@
-﻿namespace BankProject.ViewModels
+﻿namespace DataAccessLayer.ViewModels
 {
     public class CustomerSearchViewModel
     {

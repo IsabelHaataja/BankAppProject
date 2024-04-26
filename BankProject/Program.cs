@@ -1,8 +1,10 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using DataAccessLayer;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,11 +22,15 @@ builder.Services.AddTransient<DataInitializer>();
 
 var containerBuilder = new ContainerBuilder();
 
-containerBuilder.Populate(builder.Services);
+containerBuilder.RegisterType<BankAppDataV2Context>().AsSelf().InstancePerLifetimeScope();
 
+containerBuilder.RegisterType<DataAccessService>().AsSelf().InstancePerLifetimeScope();
+
+containerBuilder.Populate(builder.Services);
 var container = containerBuilder.Build();
 
 builder.Services.AddSingleton<IServiceProvider>(container.Resolve<IServiceProvider>());
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 
