@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using DataAccessLayer.Models;
-using BankProject.ViewModels;
+using DataAccessLayer.ViewModels;
 namespace BankProject.Infrastructure
 {
     public class AutoMapperProfile : Profile

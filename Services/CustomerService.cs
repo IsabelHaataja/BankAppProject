@@ -20,6 +20,7 @@ namespace Services
             _mapper = mapper;
         }
 
+
         public IEnumerable<Customer> GetCustomers()
         {
             using (var dbContext = _dataAccessService.GetDbContext())
@@ -45,6 +46,7 @@ namespace Services
                 dbContext.SaveChanges();
             }
         }
+
         public Customer GetCustomer(int customerId)
         {
             using (var dbContext = _dataAccessService.GetDbContext())
@@ -52,24 +54,22 @@ namespace Services
                 return dbContext.Customers.FirstOrDefault(c => c.CustomerId == customerId);
             }
         }
-        public PagedResult<Customer> ReadCustomers(string sortColumn, string sortOrder, int page)
+        public PagedResult<CustomerSearchViewModel> ReadCustomers(string sortColumn, string sortOrder, int page)
         {
-            using (var dbContext = _dataAccessService.GetDbContext())
+            var query = _dataAccessService.GetCustomersQuery();
+           
+
+            if (sortColumn == "Givenname")
             {
-                var query = dbContext.Customers.AsQueryable();
-
-                if (sortColumn == "Givenname")
-                {
-                    query = sortOrder == "asc" ? query.OrderBy(c => c.Givenname) : query.OrderByDescending(c => c.Givenname);
-                }
-                else if (sortColumn == "City")
-                {
-                    query = sortOrder == "asc" ? query.OrderBy(c => c.City) : query.OrderByDescending(c => c.City);
-                }
-                var customers = _mapper.ProjectTo<CustomerSearchViewModel>(query).ToList();
-
-                return query.GetPaged(page, 50);
+                query = sortOrder == "asc" ? query.OrderBy(c => c.Givenname) : query.OrderByDescending(c => c.Givenname);
             }
+            else if (sortColumn == "City")
+            {
+                query = sortOrder == "asc" ? query.OrderBy(c => c.City) : query.OrderByDescending(c => c.City);
+            }
+            var customers = _mapper.ProjectTo<CustomerSearchViewModel>(query).AsQueryable();
+            var pagedCustomers = customers.GetPaged(page, 50);
+            return pagedCustomers;
         }
     }
 }

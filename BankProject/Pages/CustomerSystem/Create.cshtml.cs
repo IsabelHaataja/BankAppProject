@@ -1,13 +1,13 @@
 using DataAccessLayer.Models.CountrySystem;
 using DataAccessLayer.Models;
-using BankProject.ViewModels;
+using DataAccessLayer.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Services;
 using AutoMapper;
 
-namespace BankProject.Pages.Customers
+namespace BankProject.Pages.CustomerSystem
 {
     public class CreateModel : PageModel
     {

@@ -1,0 +1,93 @@
+﻿@page
+@model BankProject.Pages.CustomerSystem.CreateModel
+@{
+}
+<div class="container mt-4 mb-4">
+	<h1>Create a new customer</h1>
+
+	<form method="post" onsubmit="return validateForm()" class="pt-3">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label for="givenname" class="form-label">Given Name</label>
+					<input type="text" class="form-control" id="givenname" asp-for="CreateCustomerRequest.Givenname" required>
+					<div class="invalid-feedback">Please provide a given name.</div>
+				</div>
+
+				<div class="mb-3">
+					<label for="surname" class="form-label">Surname</label>
+					<input type="text" class="form-control" id="surname" asp-for="CreateCustomerRequest.Surname" />
+					<div class="invalid-feedback">Please provide a surname.</div>
+				</div>
+
+				<div class="mb-3">
+					<label for="gender" class="form-label">Gender</label>
+					<select class="form-select" id="gender" asp-for="CreateCustomerRequest.GenderCustomer" required>
+						<option value="">Select Gender</option>
+						@foreach (var gender in Model.CreateCustomerRequest.Genders)
+						{
+							<option value="@gender.Value">@gender.Text</option>
+						}
+					</select>
+					<div class="invalid-feedback">Please select a gender.</div>
+				</div>
+
+				<div class="mb-3">
+					<label for="email" class="form-label">Email</label>
+					<input type="email" class="form-control" id="email" asp-for="CreateCustomerRequest.Emailaddress" />
+					<div class="invalid-feedback">Please provide a valid email address.</div>
+				</div>
+
+				<div class="mb-3">
+					<label for="streetaddress" class="form-label">Street address</label>
+					<input type="text" class="form-control" id="streetaddress" asp-for="CreateCustomerRequest.Streetaddress" />
+					<div class="invalid-feedback">Please provide a valid street address.</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label for="city" class="form-label">City</label>
+					<input type="text" class="form-control" id="city" asp-for="CreateCustomerRequest.City" />
+					<div class="invalid-feedback">Please provide a valid city.</div>
+				</div>
+
+				<div class="mb-3">
+					<label for="zipcode" class="form-label">Zipcode</label>
+					<input type="text" class="form-control" id="zipcode" asp-for="CreateCustomerRequest.Zipcode" />
+					<div class="invalid-feedback">Please provide a valid zipcode.</div>
+				</div>
+
+				<div class="mb-3">
+					<label for="country" class="form-label">Country</label>
+					<select class="form-select" id="country" asp-for="CreateCustomerRequest.CountryCustomer" asp-items="@Model.CreateCustomerRequest.Countries">
+						<option value="">Select Country</option>
+						@foreach (var country in Model.CreateCustomerRequest.Countries)
+						{
+							<option value="@country.Value">@country.Text</option>
+						}
+					</select>
+					<div class="invalid-feedback">Please select a country.</div>
+				</div>
+
+				<div class="mb-3">
+					<label for="telephonecountrycode" class="form-label">Telephone Country Code</label>
+					<input type="text" class="form-control" id="telephonecountrycode" asp-for="CreateCustomerRequest.Telephonecountrycode" />
+					<div class="invalid-feedback">Please provide a valid telephone country code.</div>
+				</div>
+
+				<div class="mb-3">
+					<label for="telephonenumber" class="form-label">Telephone number</label>
+					<input type="tel" class="form-control" id="telephonenumber" asp-for="CreateCustomerRequest.Telephonenumber" />
+					<div class="invalid-feedback">Please provide a valid telephone number.</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div>
+			<button type="submit" class="btn btn-primary">Save</button>
+		</div>
+	</form>
+
+</div>
