@@ -32,36 +32,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
-// Use Autofac as the service provider
-//builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-//builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
-//{
-//	containerBuilder.Populate(builder.Services);
-
-//	containerBuilder.Register<Func<BankAppDataV2Context>>(c =>
-//	{
-//		var context = c.Resolve<IComponentContext>();
-//		return () => context.Resolve<BankAppDataV2Context>();
-//	}).As<Func<BankAppDataV2Context>>();
-
-//	containerBuilder.RegisterType<DataAccessService>().AsSelf().InstancePerLifetimeScope();
-//	containerBuilder.RegisterType<DataInitializer>().AsSelf().InstancePerLifetimeScope();
-//	containerBuilder.Register(ctx =>
-//	{
-//		var config = new MapperConfiguration(cfg =>
-//		{
-//			cfg.AddProfile<AutoMapperProfile>();
-//		});
-//		return config.CreateMapper();
-//	}).As<IMapper>().InstancePerLifetimeScope();
-//	containerBuilder.RegisterType<CustomerService>().As<ICustomerService>();
-//});
-
-
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<BankAppDataV2Context>(options =>
 	options.UseSqlServer(connectionString));
+builder.Services.AddScoped<Func<BankAppDataV2Context>>(sp => () => sp.GetRequiredService<BankAppDataV2Context>());
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -70,11 +45,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 builder.Services.AddRazorPages();
 builder.Services.AddTransient<DataInitializer>();
-//builder.Services.AddTransient<ICustomerService, CustomerService>();
-//builder.Services.AddTransient<IStatisticsService, StatisticsService>();
-//builder.Services.AddTransient<ICustomerDetails, CustomerDetailService>();
-//builder.Services.AddTransient<IAccountService, AccountService>();
-
+builder.Services.AddTransient<DataAccessService>();
+builder.Services.AddTransient<ICustomerService, CustomerService>();
 
 var app = builder.Build();
 
