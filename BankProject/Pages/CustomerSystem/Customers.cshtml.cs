@@ -12,14 +12,6 @@ namespace BankProject.Pages.CustomerSystem
         public CustomersModel(ICustomerService customerService)
         {
 			_customerService = customerService ?? throw new ArgumentNullException(nameof(customerService));
-			if (_customerService == null)
-			{
-				Console.WriteLine("ICustomerService dependency is not resolved.");
-			}
-			else
-			{
-				Console.WriteLine("ICustomerService dependency resolved successfully.");
-			}
 		}
 		public PagedResult<CustomerSearchViewModel> Customers { get; set; }
         public int CurrentPage { get; set; }
@@ -39,8 +31,6 @@ namespace BankProject.Pages.CustomerSystem
 
                 Customers = _customerService.ReadCustomers(sortColumn, sortOrder, pageNo);
                 PageCount = Customers.PageCount;
-
-                Console.WriteLine("OnGet done");
             }
             catch (Exception ex)
             {

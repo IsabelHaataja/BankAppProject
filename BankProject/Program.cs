@@ -47,6 +47,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddTransient<DataInitializer>();
 builder.Services.AddTransient<DataAccessService>();
 builder.Services.AddTransient<ICustomerService, CustomerService>();
+builder.Services.AddTransient<ICustomerDetails, CustomerDetailsService>();
 
 var app = builder.Build();
 

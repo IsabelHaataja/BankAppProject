@@ -14,7 +14,7 @@ namespace Services
 	{
 		private readonly DataAccessService _context;
 		private readonly IMapper _mapper;
-		CustomerDetailsService(DataAccessService context, IMapper mapper)
+		public CustomerDetailsService (DataAccessService context, IMapper mapper)
 		{
 			_context = context;
 			_mapper = mapper;
@@ -22,6 +22,7 @@ namespace Services
 		public async Task<CustomerViewModel> GetCustomerAsync(int customerId)
 		{
 			var chosenCustomer = await _context.GetDbContext().Customers.FindAsync(customerId);
+			
 			if (chosenCustomer == null)
 			{
 				return null;
