@@ -4249,6 +4249,9 @@ textarea.form-control-lg {
   border: var(--bs-card-border-width) solid var(--bs-card-border-color);
   border-radius: var(--bs-card-border-radius);
 }
+
+
+
 .card > hr {
   margin-right: 0;
   margin-left: 0;
@@ -4271,7 +4274,17 @@ textarea.form-control-lg {
 .card > .list-group + .card-footer {
   border-top: 0;
 }
-
+.statistics {
+   --bs-card-height: 21rem;
+   width: 10rem;
+   margin-right: 2rem;
+   margin-left: 2rem;
+   background-color: lightgray;
+}
+.statistics .card-body img {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
 .card-body {
   flex: 1 1 auto;
   padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);

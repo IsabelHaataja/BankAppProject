@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DataAccessLayer.Models;
 using DataAccessLayer.ViewModels;
+using DataAccessLayer.Models.CountrySystem;
 namespace BankProject.Infrastructure
 {
     public class AutoMapperProfile : Profile
@@ -24,6 +25,7 @@ namespace BankProject.Infrastructure
 			CreateMap<Card, CardViewModel>().ReverseMap();
 
 			CreateMap<Disposition, DispositionViewModel>().ReverseMap();
+            CreateMap<Country, CountryStatisticsViewModel>().ReverseMap();
 		}
     }
 }

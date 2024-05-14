@@ -7,13 +7,22 @@
 <!-- Masthead-->
 <header class="masthead">
     <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
-        <div class="d-flex justify-content-center">
-            <div class="text-center">
-                <h1 class="mx-auto my-0 text-uppercase">Grayscale</h1>
-                <h2 class="text-white-50 mx-auto mt-2 mb-5">A free, responsive, one page Bootstrap theme created by Start Bootstrap.</h2>
-                <a class="btn btn-primary" href="#about">Get Started</a>
+        @foreach (var country in Model.CountryStatistics.NumberOfCustomers.Keys)
+        {
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="card d-flex statistics">
+                        <div class="card-body">
+                            <h5 class="card-title">@country.ToString()</h5>
+                            <img src="@Model.GetFlagUrl(country)" alt="Flag of @country" />
+                            <p class="card-text">Customers: @string.Format("{0:n0}", Model.CountryStatistics.NumberOfCustomers[country])</p>
+                            <p class="card-text">Accounts: @string.Format("{0:n0}", Model.CountryStatistics.NumberOfAccounts[country])</p>
+                            <p class="card-text">Balance: @string.Format("{0:n0}", Model.CountryStatistics.TotalBalance[country])</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        }
     </div>
 </header>
 <!-- About-->
