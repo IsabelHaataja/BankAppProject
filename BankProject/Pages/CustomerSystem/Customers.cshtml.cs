@@ -1,11 +1,13 @@
 using AutoMapper;
 using DataAccessLayer.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Services;
 
 namespace BankProject.Pages.CustomerSystem
 {
+    [Authorize(Roles = "admin, cashier")]
     public class CustomersModel : PageModel
     {
         private readonly ICustomerService _customerService;
