@@ -7,7 +7,7 @@ using Services;
 
 namespace BankProject.Pages.CustomerSystem
 {
-    [Authorize(Roles = "admin, cashier")]
+    [Authorize(Roles = "Admin, Cashier")]
     public class CustomersModel : PageModel
     {
         private readonly ICustomerService _customerService;
