@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/BankApp-IH/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsDefaultConnection_F21ABA8C8A",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/bank-az-db/databases/BankAppDataV2",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:DefaultConnection",
+      "dynamicId": null
+    }
+  }
+}

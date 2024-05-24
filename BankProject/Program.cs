@@ -29,15 +29,22 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+// Ensure configuration is loaded before accessing it
+builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables();
 
-// Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
 builder.Services.AddDbContext<BankAppDataV2Context>(options =>
 	options.UseSqlServer(connectionString));
 builder.Services.AddScoped<Func<BankAppDataV2Context>>(sp => () => sp.GetRequiredService<BankAppDataV2Context>());
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
   .AddRoles<IdentityRole>()
