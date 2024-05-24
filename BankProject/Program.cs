@@ -55,7 +55,7 @@ builder.Services.AddTransient<DataInitializer>();
 builder.Services.AddTransient<DataAccessService>();
 builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<ICustomerDetails, CustomerDetailsService>();
-string flagBasePath = "/assets/img/flags/";
+string flagBasePath = "/assets/img/flags";
 builder.Services.AddTransient<ICountryStatisticsService>(provider =>
     new CountryStatisticsService(
         provider.GetRequiredService<DataAccessService>(),

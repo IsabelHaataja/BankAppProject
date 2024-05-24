@@ -28,25 +28,52 @@ namespace DataAccessLayer
         }
         public List<int> GetCustomerIdByCountry(Country country)
         {
-            return _context.Dispositions
-               .Where(d => (int)d.Customer.CustomerCountry == (int)country)
-               .Select(d => d.CustomerId)
-               .Distinct()
-               .ToList();
+            try
+            {
+                int countryValue= (int)country;
+                return _context.Dispositions
+                   .Where(d => (int)d.Customer.CustomerCountry == countryValue)
+                   .Select(d => d.CustomerId)
+                   .Distinct()
+                   .ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in GetCustomerIdByCountry: {ex.Message}");
+                return new List<int>();
+            }
+
         }
         public decimal GetTotalBalanceByCountry(List<int> customerIds)
         {
-            return _context.Dispositions
-                .Where(d => customerIds.Contains(d.CustomerId))
-                .Sum(d => d.Account.Balance);
+            try
+            {
+                return _context.Dispositions
+                    .Where(d => customerIds.Contains(d.CustomerId))
+                    .Sum(d => d.Account.Balance);
+            }
+            catch(Exception ex) 
+            {
+                Console.WriteLine($"Error in GetTotalBalanceByCountry: {ex.Message}");
+                return 0;
+            }
         }
         public int GetAccountCountByCountry(Country country)
         {
-            return _context.Dispositions
-                .Where(d => (int)d.Customer.CustomerCountry == (int)country)
-                .Select(d => d.AccountId)
-                .Distinct()
-                .Count();
+            try
+            {
+                return _context.Dispositions
+                    .Where(d => (int)d.Customer.CustomerCountry == (int)country)
+                    .Select(d => d.AccountId)
+                    .Distinct()
+                    .Count();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in GetAccountCountByCountry: {ex.Message}");
+                return 0;
+            }
+
         }
     }
 }

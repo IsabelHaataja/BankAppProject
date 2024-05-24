@@ -14,7 +14,7 @@ namespace Services
     {
         private readonly DataAccessService _dataAccessService;
         private readonly string _flagBasePath;
-        public CountryStatisticsService ( DataAccessService dataAccessService, string flagBasePath)
+        public CountryStatisticsService (DataAccessService dataAccessService, string flagBasePath)
         {
             _dataAccessService = dataAccessService;
             _flagBasePath = flagBasePath;
@@ -23,10 +23,10 @@ namespace Services
         public string GetFlagUrl(Country country)
         {
 
-            return $"{_flagBasePath}{country.ToString().ToLower()}.svg";
+            return $"{_flagBasePath}/{country.ToString().ToLower()}.svg";
         }
     
-    public CountryStatisticsViewModel GetStatisticsViewModel()
+        public CountryStatisticsViewModel GetStatisticsViewModel()
         {
             try
             {
@@ -45,9 +45,8 @@ namespace Services
             }
             catch (Exception ex)
             {
-                // Log the exception for debugging purposes
                 Console.WriteLine("Exception in GetStatisticsViewModel: " + ex.Message);
-                return null; // Return null to indicate an error occurred
+                return new CountryStatisticsViewModel(); ;
             }
         }
     }
