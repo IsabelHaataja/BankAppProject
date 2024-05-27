@@ -28,6 +28,13 @@ namespace Services
                 return dbContext.Customers;
             }
         }
+        public Customer GetCustomer(int customerId)
+        {
+            using (var dbContext = _dataAccessService.GetDbContext())
+            {
+                return dbContext.Customers.FirstOrDefault(c => c.CustomerId == customerId);
+            }
+        }
 
         public int SaveNew(Customer customer)
         {
@@ -47,28 +54,34 @@ namespace Services
             }
         }
 
-        public Customer GetCustomer(int customerId)
-        {
-            using (var dbContext = _dataAccessService.GetDbContext())
-            {
-                return dbContext.Customers.FirstOrDefault(c => c.CustomerId == customerId);
-            }
-        }
-        public PagedResult<CustomerSearchViewModel> ReadCustomers(string sortColumn, string sortOrder, int page)
+        public PagedResult<CustomerSearchViewModel> ReadCustomers(string sortColumn, string sortOrder, int page, string searchText = null)
         {
             var query = _dataAccessService.GetCustomersQuery();
-           
 
-            if (sortColumn == "Givenname")
+            if (!string.IsNullOrEmpty(searchText))
             {
-                query = sortOrder == "asc" ? query.OrderBy(c => c.Givenname) : query.OrderByDescending(c => c.Givenname);
+                query = query.Where(c =>
+                    c.CustomerId.ToString().Contains(searchText) ||
+                    c.Givenname.Contains(searchText) ||
+                    c.City.Contains(searchText)
+                );
             }
-            else if (sortColumn == "City")
+
+            switch (sortColumn)
             {
-                query = sortOrder == "asc" ? query.OrderBy(c => c.City) : query.OrderByDescending(c => c.City);
+                case "Givenname":
+                    query = sortOrder == "asc" ? query.OrderBy(c => c.Givenname) : query.OrderByDescending(c => c.Givenname);
+                    break;
+                case "City":
+                    query = sortOrder == "asc" ? query.OrderBy(c => c.City) : query.OrderByDescending(c => c.City);
+                    break;
+                default:
+                    query = query.OrderBy(c => c.CustomerId);
+                    break;
             }
-            var customers = _mapper.ProjectTo<CustomerSearchViewModel>(query).AsQueryable();
-            var pagedCustomers = customers.GetPaged(page, 50);
+
+            var pagedCustomers = query.Select(c => _mapper.Map<CustomerSearchViewModel>(c))
+                                      .GetPaged(page, 50);
             return pagedCustomers;
         }
     }

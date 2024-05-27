@@ -8,6 +8,17 @@
         <div class="col">
 			<h1>All customers</h1>
 
+
+			<!-- Search form -->
+			<form method="get" asp-page="/CustomerSystem/Customers">
+				<div class="input-group mb-3">
+					<input type="text" class="form-control" name="searchText" placeholder="Search by Id, Name, or City" aria-label="Search" aria-describedby="basic-addon2">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" type="submit">Search</button>
+					</div>
+				</div>
+			</form>
+
 			<table class="table table-striped">
 				<thead>
 					<tr>

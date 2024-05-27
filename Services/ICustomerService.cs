@@ -10,7 +10,7 @@ namespace Services
 {
     public interface ICustomerService
     {
-        PagedResult<CustomerSearchViewModel> ReadCustomers(string sortColumn, string sortOrder, int page);
+        PagedResult<CustomerSearchViewModel> ReadCustomers(string sortColumn, string sortOrder, int page, string searchText = null);
         public IEnumerable<Customer> GetCustomers();
         int SaveNew(Customer customer);
         void Update();
