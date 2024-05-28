@@ -19,7 +19,16 @@
                         <p><strong>Gender:</strong> @Model.ChosenCustomer.CustomerGender</p>
                         <p><strong>Address:</strong> @Model.ChosenCustomer.Streetaddress, @Model.ChosenCustomer.Zipcode, @Model.ChosenCustomer.City, @Model.ChosenCustomer.CustomerCountry</p>
                         <p><strong>Birthday:</strong> @Model.ChosenCustomer.Birthday</p>
-                        <p><strong>National Id:</strong> @Model.ChosenCustomer.NationalId</p>
+                        <p><strong>National Id:</strong>
+                            @if (string.IsNullOrEmpty(Model.ChosenCustomer.NationalId))
+                            {
+                                <span>No National ID registered</span>
+                            }
+                            else
+                            {
+                                @Model.ChosenCustomer.NationalId
+                            }
+                        </p>
                         <p><strong>Phone number:</strong> +@Model.ChosenCustomer.Telephonecountrycode @Model.ChosenCustomer.Telephonenumber</p>
                         <p><strong>Email address:</strong> @Model.ChosenCustomer.Emailaddress</p>
                     }
