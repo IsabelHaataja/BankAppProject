@@ -11,8 +11,9 @@ namespace DataAccessLayer.ViewModels
 	public class CustomerViewModel
 	{
 		public int CustomerId { get; set; }
+        public int CustomerNumber { get; set; }
 
-		public Gender CustomerGender { get; set; }
+        public Gender CustomerGender { get; set; }
 
 		public string Givenname { get; set; } = null!;
 

@@ -3,6 +3,8 @@
     public class CustomerSearchViewModel
     {
         public int CustomerId { get; set; }
+        
+        public int CustomerNumber { get; set; }
 
         public string Givenname { get; set; } = null!;
 
