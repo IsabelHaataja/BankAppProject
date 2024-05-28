@@ -1,32 +1,19 @@
-using Autofac;
-using Autofac.Core;
-using Autofac.Extensions.DependencyInjection;
-using AutoMapper;
-using BankProject.Infrastructure;
+using Microsoft.AspNetCore.Builder;
 using DataAccessLayer;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Services;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.AspNetCore.Http;
-using System.Reflection;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Autofac.Core.Registration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.ComponentModel;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
+using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using BankProject.Infrastructure;
+using Services;
+using AutoMapper;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +53,11 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
 	scope.ServiceProvider.GetService<DataInitializer>().SeedData();
+
+    var customerService = scope.ServiceProvider.GetService<ICustomerService>();
+    //customerService.AssignCustomerNumbers();
+    customerService.AssignAccountNumbers();
+    
 }
 
 // Configure the HTTP request pipeline.

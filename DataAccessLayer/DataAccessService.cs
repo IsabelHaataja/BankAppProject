@@ -75,5 +75,21 @@ namespace DataAccessLayer
             }
 
         }
-    }
+		public List<string> GetDuplicateAccountNumbers()
+		{
+			return _context.Accounts
+				.GroupBy(a => a.AccountNumber)
+				.Where(g => g.Count() > 1 && g.Key != null)
+				.Select(g => g.Key)
+				.ToList();
+		}
+		public List<Account> GetDuplicateAccounts(List<string> duplicateAccountNumbers)
+		{
+			return _context.Accounts
+				.Where(a => duplicateAccountNumbers.Contains(a.AccountNumber))
+				.OrderBy(a => a.AccountNumber) // Ensure consistent ordering
+				.ToList();
+		}
+
+	}
 }

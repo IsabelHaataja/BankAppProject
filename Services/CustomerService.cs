@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace Services
 {
@@ -84,5 +85,57 @@ namespace Services
                                       .GetPaged(page, 50);
             return pagedCustomers;
         }
-    }
+
+		public void AssignUniqueAccountNumbers()
+		{
+			var duplicateAccountNumbers = _dataAccessService.GetDuplicateAccountNumbers();
+
+			var duplicateAccounts = _dataAccessService.GetDuplicateAccounts(duplicateAccountNumbers);
+
+			foreach (var group in duplicateAccounts.GroupBy(a => a.AccountNumber))
+			{
+				foreach (var account in group.Skip(1))
+				{
+					account.AccountNumber = GenerateAccountNumber();
+				}
+			}
+            _dataAccessService.GetDbContext().SaveChanges();
+		}
+
+        //public void AssignCustomerNumbers()
+        //{
+        //          var dbContext = _dataAccessService.GetDbContext();
+
+        //		var customers = dbContext.Customers.Where(c => c.CustomerNumber == null).ToList();
+        //	    int nextClientNumber = dbContext.Customers.Max(c => (int?)c.CustomerNumber) ?? 1000;
+
+        //	    foreach (var customer in customers)
+        //	    {
+        //		    customer.CustomerNumber = nextClientNumber++;
+        //	    }
+
+        //	    dbContext.SaveChanges();
+        //}
+
+        public void AssignAccountNumbers()
+        {
+
+            var dbContext = _dataAccessService.GetDbContext();
+            var accounts = dbContext.Accounts.Where(a => a.AccountNumber == null).ToList();
+
+            foreach (var account in accounts)
+            {
+                account.AccountNumber = GenerateAccountNumber();
+            }
+
+            AssignUniqueAccountNumbers();
+
+            dbContext.SaveChanges();
+        }
+
+        private string GenerateAccountNumber()
+		{
+			return "ACCT-" + Guid.NewGuid().ToString().Substring(0, 6).ToUpper();
+		}
+	}
 }
