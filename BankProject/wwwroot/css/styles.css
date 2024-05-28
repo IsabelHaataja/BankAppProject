@@ -4286,6 +4286,18 @@ textarea.form-control-lg {
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
+#CustomerDetails {
+    background-color: #5a918d !important;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+
+}
+#CustomerDetails .card-body h2 {
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+}
 .card-body {
   flex: 1 1 auto;
   padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);

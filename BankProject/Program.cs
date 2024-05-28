@@ -47,6 +47,7 @@ builder.Services.AddTransient<ICountryStatisticsService>(provider =>
     new CountryStatisticsService(
         provider.GetRequiredService<DataAccessService>(),
         flagBasePath));
+builder.Services.AddTransient<IAccountService, AccountService>();
 
 var app = builder.Build();
 
@@ -54,10 +55,9 @@ using (var scope = app.Services.CreateScope())
 {
 	scope.ServiceProvider.GetService<DataInitializer>().SeedData();
 
-    var customerService = scope.ServiceProvider.GetService<ICustomerService>();
-    //customerService.AssignCustomerNumbers();
-    customerService.AssignAccountNumbers();
-    
+    //var customerService = scope.ServiceProvider.GetService<ICustomerService>();
+    ////customerService.AssignCustomerNumbers();
+    //customerService.AssignAccountNumbers();
 }
 
 // Configure the HTTP request pipeline.
