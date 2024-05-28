@@ -12,7 +12,7 @@
 			<!-- Search form -->
 			<form method="get" asp-page="/CustomerSystem/Customers">
 				<div class="input-group mb-3">
-					<input type="text" class="form-control" name="searchText" placeholder="Search by Id, Name, or City" aria-label="Search" aria-describedby="basic-addon2">
+					<input type="text" class="form-control" name="searchText" placeholder="Search by Customer Number, Name, or City" aria-label="Search" aria-describedby="basic-addon2">
 					<div class="input-group-append">
 						<button class="btn btn-outline-secondary" type="submit">Search</button>
 					</div>
@@ -22,7 +22,7 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th scope="col">Id</th>
+						<th scope="col">Customer Number</th>
 						<th scope="col">
 							Customer Name
 							<a asp-page="/CustomerSystem/Customers"
@@ -64,7 +64,7 @@
 					@foreach (var cust in Model.Customers.Results)
 					{
 						<tr>
-							<td>@cust.CustomerId</td>
+							<td>@cust.CustomerNumber</td>
 							<td>@cust.Givenname</td>
 							<td>@cust.Surname</td>
 							<td>@cust.Streetaddress</td>

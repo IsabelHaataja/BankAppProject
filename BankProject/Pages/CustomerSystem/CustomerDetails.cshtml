@@ -5,55 +5,69 @@
 }
 <link rel="stylesheet" href="/css/styles.css">
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col">
-            <h1>Customer Details</h1>
-            @if (Model.ChosenCustomer != null)
-            {
-                <h2><strong>@Model.ChosenCustomer.Givenname @Model.ChosenCustomer.Surname</strong></h2>
-                <p><strong>Gender:</strong> @Model.ChosenCustomer.CustomerGender</p>
-                <p><strong>Address:</strong> @Model.ChosenCustomer.Streetaddress, @Model.ChosenCustomer.Zipcode, @Model.ChosenCustomer.City, @Model.ChosenCustomer.CustomerCountry</p>
-                <p><strong>Birthday:</strong> @Model.ChosenCustomer.Birthday</p>
-                <p><strong>National Id:</strong> @Model.ChosenCustomer.NationalId</p>
-                <p><strong>Phone number:</strong> @Model.ChosenCustomer.Telephonecountrycode @Model.ChosenCustomer.Telephonenumber</p>
-                <p><strong>Email address:</strong> @Model.ChosenCustomer.Emailaddress</p>
-            }
+<div class="container" id="CustomerDetails">
+    <div class="row mb-4 justify-content-center">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h1>Customer Details</h1>
+
+                    @if (Model.ChosenCustomer != null)
+                    {
+                        <h2><strong>@Model.ChosenCustomer.Givenname @Model.ChosenCustomer.Surname</strong></h2>
+                        <p><strong>Customer Number:</strong> @Model.ChosenCustomer.CustomerNumber</p>
+                        <p><strong>Gender:</strong> @Model.ChosenCustomer.CustomerGender</p>
+                        <p><strong>Address:</strong> @Model.ChosenCustomer.Streetaddress, @Model.ChosenCustomer.Zipcode, @Model.ChosenCustomer.City, @Model.ChosenCustomer.CustomerCountry</p>
+                        <p><strong>Birthday:</strong> @Model.ChosenCustomer.Birthday</p>
+                        <p><strong>National Id:</strong> @Model.ChosenCustomer.NationalId</p>
+                        <p><strong>Phone number:</strong> +@Model.ChosenCustomer.Telephonecountrycode @Model.ChosenCustomer.Telephonenumber</p>
+                        <p><strong>Email address:</strong> @Model.ChosenCustomer.Emailaddress</p>
+                    }
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="row mt-4">
-        <div class="col">
-            <h3>Accounts</h3>
-            <ul class="list-group">
-                @foreach (var account in Model.ChosenCustomer.Accounts)
-                {
-                    <li class="list-group-item">
-                        <a asp-page="/AccountDetails" asp-route-accountId="@account.AccountId">@account.AccountId</a>
-                        <p class="mb-0">@account.Balance</p>
-                    </li>
-                }
-            </ul>
+    <div class="row mt-4 justify-content-center">
+        <div class="col-12 col-md-6 mb-4">
+            <div class="card h-100 ">
+                <div class="card-body">
+                    <h3>Accounts</h3>
+                    <ul class="list-group">
+                        @foreach (var account in Model.ChosenCustomer.Accounts)
+                        {
+                            <li class="list-group-item">
+                                <a asp-page="/AccountDetails" asp-route-accountId="@account.AccountNumber">@account.AccountNumber</a>
+                                <p class="mb-0">Total balance: @account.Balance</p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
         </div>
 
-        <div class="col">
-            <h3>Cards</h3>
-            <ul class="list-group">
-                @if (Model.ChosenCustomer != null && Model.ChosenCustomer.Cards != null && Model.ChosenCustomer.Cards.Any())
-                {
-                    foreach (var card in Model.ChosenCustomer.Cards)
-                    {
-                        <li class="list-group-item">
-                            <p><strong>Card number:</strong> @card.Ccnumber</p>
-                            <p><strong>Type:</strong> @card.Cctype</p>
-                        </li>
-                    }
-                }
-                else
-                {
-                    <p>No cards available</p>
-                }
-            </ul>
+        <div class="col-12 col-md-6 mb-4">
+            <div class="card h-100 ">
+                <div class="card-body">
+                    <h3>Cards</h3>
+                    <ul class="list-group">
+                        @if (Model.ChosenCustomer != null && Model.ChosenCustomer.Cards != null && Model.ChosenCustomer.Cards.Any())
+                        {
+                            foreach (var card in Model.ChosenCustomer.Cards)
+                            {
+                                <li class="list-group-item">
+                                    <p><strong>Card number:</strong> @card.Ccnumber</p>
+                                    <p><strong>Type:</strong> @card.Cctype</p>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <p>No cards available</p>
+                        }
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>
