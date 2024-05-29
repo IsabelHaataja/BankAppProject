@@ -49,15 +49,13 @@ builder.Services.AddTransient<ICountryStatisticsService>(provider =>
         flagBasePath));
 builder.Services.AddTransient<IAccountService, AccountService>();
 
+//builder.Services.AddResponseCaching();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
 	scope.ServiceProvider.GetService<DataInitializer>().SeedData();
-
-    //var customerService = scope.ServiceProvider.GetService<ICustomerService>();
-    ////customerService.AssignCustomerNumbers();
-    //customerService.AssignAccountNumbers();
 }
 
 // Configure the HTTP request pipeline.
@@ -81,5 +79,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+//app.UseResponseCaching();
 
 app.Run();

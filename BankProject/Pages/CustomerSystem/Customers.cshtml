@@ -9,9 +9,11 @@
 <div class="container p-3">
     <div class="row">
         <div class="col">
-            <!-- Back link -->
-			<a href="#" class="btn btn-secondary mt-5 mb-5" onclick="history.back(); return false;"><i class="fa-solid fa-arrow-left fa-lg"></i></a>
-			<h1>All customers</h1>
+			<div class="d-flex align-items-center mb-3 mt-5">
+				<!-- Back link -->
+				<a href="#" class="btn btn-secondary me-3" onclick="history.back(); return false;"><i class="fa-solid fa-arrow-left fa-lg"></i></a>
+				<h1>All customers</h1>
+			</div>
 			<!-- Search form -->
 			<form method="get" asp-page="/CustomerSystem/Customers">
 				<div class="input-group mb-3">
