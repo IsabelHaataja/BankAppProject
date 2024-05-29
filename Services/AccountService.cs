@@ -65,6 +65,16 @@ namespace Services
 			return ErrorCode.OK;
 
 		}
+		public List<Transaction> GetTransactions(int accountId, int skip, int take)
+		{
+			var context = _dataAccessService.GetDbContext();
+			return context.Transactions
+				.Where(t => t.AccountId == accountId)
+				.OrderByDescending(t => t.Date)
+				.Skip(skip)
+				.Take(take)
+				.ToList();
+		}
 		public Account GetAccount(int accountId)
 		{
 			var context = _dataAccessService.GetDbContext();
