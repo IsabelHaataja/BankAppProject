@@ -27,7 +27,6 @@ namespace BatchProcessor
 					options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")))
 				.BuildServiceProvider();
 
-			// Create a scope to obtain a reference to the DbContext
 			using (var scope = serviceProvider.CreateScope())
 			{
 				var context = scope.ServiceProvider.GetRequiredService<BankAppDataV2Context>();

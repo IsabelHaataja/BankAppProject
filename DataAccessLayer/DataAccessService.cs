@@ -87,7 +87,7 @@ namespace DataAccessLayer
 		{
 			return _context.Accounts
 				.Where(a => duplicateAccountNumbers.Contains(a.AccountNumber))
-				.OrderBy(a => a.AccountNumber) // Ensure consistent ordering
+				.OrderBy(a => a.AccountNumber) 
 				.ToList();
 		}
 
