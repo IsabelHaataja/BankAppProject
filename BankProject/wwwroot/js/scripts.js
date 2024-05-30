@@ -77,7 +77,8 @@ function loadMoreTransactions(accountId) {
                         <td>${transaction.type}</td>
                         <td>${transaction.operation}</td>
                         <td>${transaction.amount}</td>
-                        <td>${transaction.balance}</td>`;
+                        <td>${transaction.balance}</td>
+                        <td>${transaction.Symbol}</td>`;
                     list.appendChild(row);
                 });
                 skip += 20;
