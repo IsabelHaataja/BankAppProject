@@ -1,5 +1,7 @@
-﻿using DataAccessLayer;
+﻿using AutoMapper;
+using DataAccessLayer;
 using DataAccessLayer.Models;
+using DataAccessLayer.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Services.Infrastructure;
 using System;
@@ -13,9 +15,11 @@ namespace Services
 	public class AccountService : IAccountService
 	{
 		private readonly DataAccessService _dataAccessService;
-		public AccountService(DataAccessService dataAccessService)
+		private readonly IMapper _mapper;
+		public AccountService(DataAccessService dataAccessService, IMapper mapper)
 		{
 			_dataAccessService = dataAccessService;
+			_mapper = mapper;
 		}
 		public ErrorCode Withdraw(int accountId, decimal amount)
 		{
@@ -32,11 +36,18 @@ namespace Services
 				return ErrorCode.IncorrectAmount;
 			}
 
-
-			// Här skulle man tex. skapa en ny databas entitet som heter "Transaction"
-			// ... och fyller den med info här...
-			// tex. Date, Amount, Current Balance, Account number etc.
+			var transaction = new Transaction
+			{
+				AccountId = accountId,
+				Date = DateOnly.FromDateTime(DateTime.UtcNow),
+				Type = "Withdrawal",
+				Operation = "Debit",
+				Amount = -amount,
+				Balance = accountDb.Balance - amount,
+			};
+			
 			accountDb.Balance -= amount;
+			context.Transactions.Add(transaction);
 			context.SaveChanges();
 			return ErrorCode.OK;
 		}
@@ -56,16 +67,39 @@ namespace Services
 				return ErrorCode.CommentEmpty;
 			}
 
-			// Här skulle man tex. skapa en ny databas entitet som heter "Transaction"
-			// ... och fyller den med info här...
-			// tex. Date, Amount, Current Balance, Account number etc.
+			var transaction = new Transaction
+			{
+				AccountId = accountId,
+				Date = DateOnly.FromDateTime(DateTime.UtcNow),
+				Type = "Deposit",
+				Operation = "Credit",
+				Amount = amount,
+				Balance = accountDb.Balance + amount,
+			};
 
 			accountDb.Balance += amount;
+			context.Transactions.Add(transaction);
 			context.SaveChanges();
 			return ErrorCode.OK;
 
 		}
-		public List<Transaction> GetTransactions(int accountId, int skip, int take)
+
+		public AccountDetailsViewModel GetAccountDetails(int accountId, int skip = 0, int take = 20)
+		{
+			var context = _dataAccessService.GetDbContext();
+			var accountDb = context.Accounts.Include(a => a.Transactions).First(a => a.AccountId == accountId);
+
+			var viewmodel = _mapper.Map<AccountDetailsViewModel>(accountDb);
+			viewmodel.Transactions = accountDb.Transactions
+				.OrderByDescending(t => t.Date)
+				.Skip(skip)
+				.Take(take)
+				.Select(t => _mapper.Map<TransactionViewModel>(t))
+				.ToList();
+
+			return viewmodel;
+		}
+		public List<TransactionViewModel> GetMoreTransactions(int accountId, int skip, int take)
 		{
 			var context = _dataAccessService.GetDbContext();
 			return context.Transactions
@@ -73,6 +107,7 @@ namespace Services
 				.OrderByDescending(t => t.Date)
 				.Skip(skip)
 				.Take(take)
+				.Select(t => _mapper.Map<TransactionViewModel>(t))
 				.ToList();
 		}
 		public Account GetAccount(int accountId)
