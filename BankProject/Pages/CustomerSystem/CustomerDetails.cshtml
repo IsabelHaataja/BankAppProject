@@ -3,15 +3,16 @@
 @{
     ViewData["Title"] = "Customer Details";
 }
-<link rel="stylesheet" href="/css/styles.css">
 
 <div class="container" id="CustomerDetails">
+    <div class="d-flex align-items-center mb-3 mt-5">
+        <a href="#" class="btn btn-secondary me-3" onclick="history.back(); return false;"><i class="fa-solid fa-arrow-left fa-lg"></i></a>
+    </div>
     <div class="row mb-4 justify-content-center">
         <div class="col-12">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body">        
                     <h1>Customer Details</h1>
-
                     @if (Model.ChosenCustomer != null)
                     {
                         <h2><strong>@Model.ChosenCustomer.Givenname @Model.ChosenCustomer.Surname</strong></h2>
@@ -46,7 +47,7 @@
                         @foreach (var account in Model.ChosenCustomer.Accounts)
                         {
                             <li class="list-group-item">
-                                <a asp-page="/AccountDetails" asp-route-accountId="@account.AccountNumber">@account.AccountNumber</a>
+                                <a asp-page="/Account/AccountDetails" asp-route-accountId="@account.AccountId">@account.AccountNumber</a>
                                 <p class="mb-0">Total balance: @account.Balance</p>
                             </li>
                         }
