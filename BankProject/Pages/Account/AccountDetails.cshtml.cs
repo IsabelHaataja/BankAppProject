@@ -13,10 +13,16 @@ namespace BankProject.Pages.Account
         {
             _accountService = accountService;
         }
-        public AccountViewModel Account { get; set; }
-        public List<Transaction>;
-        public void OnGet()
+        public AccountDetailsViewModel AccountDetails { get; set; }
+
+        public void OnGet(int accountId)
         {
+            AccountDetails = _accountService.GetAccountDetails(accountId);
+        }
+        public IActionResult OnGetMoreTransactions(int accountId, int skip)
+        {
+            var transactions = _accountService.GetMoreTransactions(accountId, skip, 20);
+            return new JsonResult(transactions);
         }
     }
 }

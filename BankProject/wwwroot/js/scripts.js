@@ -51,3 +51,47 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     });
 });
+
+var skip = 20;
+function loadMoreTransactions(accountId) {
+    fetch(`/Account/AccountDetails/${accountId}?handler=MoreTransactions&skip=${skip}`)
+        .then(response => {
+            console.log('Fetch response:', response);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Fetched data:', data);
+            var list = document.getElementById("transactionList");
+            if (data.length === 0) {
+                var loadMoreBtn = document.getElementById("loadMoreBtn");
+                loadMoreBtn.innerText = "No more transactions";
+                loadMoreBtn.disabled = true;
+            } else {
+                data.forEach(transaction => {
+                    var row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${new Date(transaction.date).toLocaleDateString()}</td>
+                        <td>${transaction.type}</td>
+                        <td>${transaction.operation}</td>
+                        <td>${transaction.amount}</td>
+                        <td>${transaction.balance}</td>`;
+                    list.appendChild(row);
+                });
+                skip += 20;
+            }
+        })
+        .catch(error => console.error('Error fetching more transactions', error));
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    var loadMoreBtn = document.getElementById("loadMoreBtn");
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', function () {
+            var accountId = loadMoreBtn.getAttribute('data-account-id');
+            loadMoreTransactions(accountId);
+        });
+    }
+});
