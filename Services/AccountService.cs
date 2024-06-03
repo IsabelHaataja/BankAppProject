@@ -40,8 +40,8 @@ namespace Services
 			{
 				AccountId = accountId,
 				Date = DateOnly.FromDateTime(DateTime.UtcNow),
-				Type = "Withdrawal",
-				Operation = "Debit",
+				Type = "Debit",
+				Operation = "Withdrawal",
 				Amount = -amount,
 				Balance = accountDb.Balance - amount,
 			};
@@ -55,9 +55,11 @@ namespace Services
 		public ErrorCode Deposit(int accountId, decimal amount, string comment)
 		{
 			var context = _dataAccessService.GetDbContext();
-			var accountDb = context.Accounts.First(a => a.AccountId == accountId);
+			var accountDb = context.Accounts.FirstOrDefault(a => a.AccountId == accountId);
 
-			if (amount < 100 || amount > 10000)
+            Console.WriteLine($"Amount received for validation: {accountId}, {amount}, {comment}");
+
+            if (amount < 100 || amount > 10000)
 			{
 				return ErrorCode.IncorrectAmount;
 			}
@@ -71,10 +73,11 @@ namespace Services
 			{
 				AccountId = accountId,
 				Date = DateOnly.FromDateTime(DateTime.UtcNow),
-				Type = "Deposit",
-				Operation = "Credit",
+				Type = "Credit",
+				Operation = "Deposit",
 				Amount = amount,
 				Balance = accountDb.Balance + amount,
+				Symbol = comment
 			};
 
 			accountDb.Balance += amount;
