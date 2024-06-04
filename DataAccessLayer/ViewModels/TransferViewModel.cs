@@ -7,11 +7,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DataAccessLayer.ViewModels
 {
-    public class WithdrawViewModel
+    public class TransferViewModel
     {
-        [Required]
-        public int AccountId { get; set; }
-        [Required]
+        public int FromAccountId { get; set; }
+        public string ToAccountNumber { get; set; }
         public decimal Amount { get; set; }
+        public string Comment { get; set; }
     }
 }

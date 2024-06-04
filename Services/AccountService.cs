@@ -43,7 +43,7 @@ namespace Services
 				Date = DateOnly.FromDateTime(DateTime.UtcNow),
 				Type = "Debit",
 				Operation = "Withdrawal",
-				Amount = amount,
+				Amount = -amount,
 				Balance = accountDb.Balance - amount,
 			};
 			
