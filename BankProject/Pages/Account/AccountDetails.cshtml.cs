@@ -4,9 +4,11 @@ using Services;
 using DataAccessLayer.ViewModels;
 using DataAccessLayer.Models;
 using Services.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BankProject.Pages.Account
 {
+    [Authorize(Roles = "Admin, Cashier")]
     public class AccountDetailsModel : PageModel
     {
         private readonly IAccountService _accountService;

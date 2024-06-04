@@ -1,10 +1,12 @@
 using DataAccessLayer.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Services;
 
 namespace BankProject.Pages.CustomerSystem
 {
+    [Authorize(Roles = "Admin, Cashier")]
     public class CustomerDetailsModel : PageModel
     {
 		private readonly ICustomerDetails _customerDetails;
