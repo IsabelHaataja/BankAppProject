@@ -6,7 +6,7 @@
 
 
 <div class="container mt-4">
-    <div class="d-flex align-items-center mb-3 mt-5">
+    <div class="d-flex align-items-center mb-3 pt-5">
         <a href="#" class="btn btn-secondary me-3" onclick="history.back(); return false;"><i class="fa-solid fa-arrow-left fa-lg"></i></a>
         <h1>Account Details</h1>
     </div>
@@ -17,21 +17,9 @@
                 <p><strong>Balance:</strong> @Model.AccountDetails.Balance</p>
             </div>
             <div class="d-flex gap-3">
-
-                <form id="depositForm" asp-page-handler="MakeDeposit">
-                    <input type="hidden" id="accountId" value="@Model.AccountDetails.AccountId" />
-                    <div class="form-group">
-                        <label for="amount">Amount</label>
-                        <input type="number" id="amount"  class="form-control" step="0.01" />
-                        <span class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="comment">Comment</label>
-                        <input type="text" id="comment" class="form-control" />
-                    </div>
-                    <button type="submit" class="btn btn-primary" id="submitButton">Submit Deposit</button>
-                </form>
-                <div id="result" class="alert" style="display: none;"></div>
+                <a id="depositBtn" class="btn btn-primary">Deposit</a>
+                <a id="withdrawBtn" class="btn btn-primary">Withdraw</a>
+                <a id="transferBtn" class="btn btn-primary">Transfer</a>
             </div>
         </div>
     </div>
@@ -58,6 +46,7 @@
                     <td>@transaction.Amount</td>
                     <td>@transaction.Balance</td>
                     <td>@transaction.Symbol</td>
+                    
                 </tr>
             }
 
@@ -66,6 +55,88 @@
         <button id="loadMoreBtn" class="btn btn-primary" data-account-id="@Model.AccountDetails.AccountId">Load More</button>
     </div>
 </div>
+
+<!-- Deposit Modal -->
+<div class="modal fade" id="depositModal" tabindex="-1" role="dialog" aria-labelledby="depositModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="depositModalLabel">Deposit Funds</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="depositForm">
+                    <div class="form-group">
+                        <label for="amount">Amount</label>
+                        <input type="number" class="form-control" id="amount" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment">Comment</label>
+                        <input type="text" class="form-control" id="comment">
+                    </div>
+                    <input type="hidden" id="accountId" value="@Model.AccountDetails.AccountId" />
+                    <button type="submit" id="submitButton" class="btn btn-primary mt-3">Submit Deposit</button>
+                </form>
+                <div id="depositResult" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Withdraw Modal -->
+<div class="modal fade" id="withdrawModal" tabindex="-1" role="dialog" aria-labelledby="withdrawModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="withdrawModalLabel">Withdraw Funds</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="withdrawForm">
+                    <div class="form-group">
+                        <label for="amount">Amount</label>
+                        <input type="number" class="form-control" id="withdrawAmount" required>
+                    </div>
+                    <input type="hidden" id="accountId" value="@Model.AccountDetails.AccountId" />
+                    <button type="submit" id="submitWithdrawButton" class="btn btn-primary mt-3">Submit Withdrawal</button>
+                </form>
+                <div id="withdrawResult" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Transfer Modal -->
+<div class="modal fade" id="transferModal" tabindex="-1" role="dialog" aria-labelledby="transferModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="transferModalLabel">Transfer Funds</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="transferForm">
+                    <div class="form-group">
+                        <label for="toAccountNumber">To Account Number:</label>
+                        <input type="text" class="form-control" id="toAccountNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="transferAmount">Amount:</label>
+                        <input type="number" class="form-control" id="transferAmount" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="transferComment">Comment:</label>
+                        <input type="text" class="form-control" id="transferComment" />
+                    </div>
+                    <input type="hidden" id="fromAccountId" value="@Model.AccountDetails.AccountId" />
+                    <button type="submit" class="btn btn-primary mt-3">Submit Transfer</button>
+                </form>
+                <div id="transferResult" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section Scripts {
     <script src="~/js/scripts.js"></script>
