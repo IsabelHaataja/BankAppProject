@@ -66,6 +66,7 @@ namespace Services
                     c.Givenname.Contains(searchText) ||
                     c.City.Contains(searchText)
                 );
+
             }
 
             switch (sortColumn)
@@ -101,21 +102,6 @@ namespace Services
 			}
             _dataAccessService.GetDbContext().SaveChanges();
 		}
-
-        //public void AssignCustomerNumbers()
-        //{
-        //          var dbContext = _dataAccessService.GetDbContext();
-
-        //		var customers = dbContext.Customers.Where(c => c.CustomerNumber == null).ToList();
-        //	    int nextClientNumber = dbContext.Customers.Max(c => (int?)c.CustomerNumber) ?? 1000;
-
-        //	    foreach (var customer in customers)
-        //	    {
-        //		    customer.CustomerNumber = nextClientNumber++;
-        //	    }
-
-        //	    dbContext.SaveChanges();
-        //}
 
         public void AssignAccountNumbers()
         {

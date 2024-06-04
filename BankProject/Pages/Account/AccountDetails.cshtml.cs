@@ -32,7 +32,7 @@ namespace BankProject.Pages.Account
 
         public JsonResult OnPostMakeDeposit([FromBody] DepositViewModel depositInput)
         {
-  
+
             if (!ModelState.IsValid)
             {
                 return new JsonResult(new { success = false, message = "Invalid input" });
@@ -53,5 +53,64 @@ namespace BankProject.Pages.Account
 
             return new JsonResult(new { success = true, message = "Deposit successful!" });
         }
+        public JsonResult OnPostMakeWithdraw([FromBody] WithdrawViewModel withdrawInput)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return new JsonResult(new { success = false, message = "Invalid input" });
+            }
+            Console.WriteLine($"Data Received: AccountId={withdrawInput.AccountId}, Amount={withdrawInput.Amount}");
+            try
+            {
+                var errorCode = _accountService.Withdraw(withdrawInput.AccountId, withdrawInput.Amount);
+                if (errorCode == ErrorCode.BalanceTooLow)
+                {
+                    return new JsonResult(new { success = false, message = "Withdrawal failed: Balance too low." });
+                }
+                else if (errorCode != ErrorCode.OK)
+                {
+                    return new JsonResult(new { success = false, message = $"Withdrawal failed: {errorCode}" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { success = false, message = $"Internal server error: {ex.Message}" });
+            }
+
+            return new JsonResult(new { success = true, message = "Withdrawal successful!" });
+        }
+        public JsonResult OnPostMakeTransfer([FromBody] TransferViewModel transferInput)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new JsonResult(new { success = false, message = "Invalid input" });
+            }
+            Console.WriteLine($"Data Received: FromAccountId={transferInput.FromAccountId}, ToAccountNumber={transferInput.ToAccountNumber}, Amount={transferInput.Amount}, Comment={transferInput.Comment}");
+            try
+            {
+                var errorCode = _accountService.Transfer(transferInput.FromAccountId, transferInput.ToAccountNumber, transferInput.Amount, transferInput.Comment);
+                if (errorCode == ErrorCode.AccountNotFound)
+                {
+                    return new JsonResult(new { success = false, message = "Transfer failed: Account number not found." });
+                }
+                else if (errorCode == ErrorCode.BalanceTooLow)
+                {
+                    return new JsonResult(new { success = false, message = "Transfer failed: Balance too low." });
+                }
+                else if (errorCode != ErrorCode.OK)
+                {
+                    return new JsonResult(new { success = false, message = $"Transfer failed: {errorCode}" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { success = false, message = $"Internal server error: {ex.Message}" });
+            }
+
+            return new JsonResult(new { success = true, message = "Transfer successful!" });
+        }
+
     }
 }
+
