@@ -11,6 +11,7 @@ namespace Services.Infrastructure
 		OK,
 		BalanceTooLow,
 		IncorrectAmount,
-		CommentEmpty
+		CommentEmpty,
+		AccountNotFound
 	}
 }

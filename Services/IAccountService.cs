@@ -14,7 +14,9 @@ namespace Services
 		Account GetAccount(int accountId);
 		ErrorCode Withdraw(int accountId, decimal amount);
 		ErrorCode Deposit(int accountId, decimal amount, string comment);
-		AccountDetailsViewModel GetAccountDetails(int accountId, int skip = 0, int take = 20);
+		ErrorCode Transfer(int fromAccountId, string toAccountNumber, decimal amount, string comment);
+
+        AccountDetailsViewModel GetAccountDetails(int accountId, int skip = 0, int take = 20);
 		List<TransactionViewModel> GetMoreTransactions(int accountId, int skip, int take);
 	}
 }

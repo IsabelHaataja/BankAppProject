@@ -3,6 +3,7 @@ using DataAccessLayer;
 using DataAccessLayer.Models;
 using DataAccessLayer.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Services.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,7 @@ namespace Services
 				Date = DateOnly.FromDateTime(DateTime.UtcNow),
 				Type = "Debit",
 				Operation = "Withdrawal",
-				Amount = -amount,
+				Amount = amount,
 				Balance = accountDb.Balance - amount,
 			};
 			
@@ -87,6 +88,49 @@ namespace Services
 
 		}
 
+		public ErrorCode Transfer(int fromAccountId, string toAccountNumber, decimal amount, string comment)
+		{
+            var context = _dataAccessService.GetDbContext();
+            var fromAccount = context.Accounts.FirstOrDefault(a => a.AccountId == fromAccountId);
+            var toAccount = context.Accounts.FirstOrDefault(a => a.AccountNumber == toAccountNumber);
+
+            if (fromAccount == null || toAccount == null)
+                return ErrorCode.AccountNotFound;
+
+            if (fromAccount.Balance < amount)
+                return ErrorCode.BalanceTooLow;
+
+            var transaction = new Transaction
+            {
+                AccountId = fromAccountId,
+                Date = DateOnly.FromDateTime(DateTime.UtcNow),
+                Type = "Debit",
+                Operation = "Transfer Out",
+                Amount = -amount,
+                Balance = fromAccount.Balance - amount,
+                Symbol = comment
+            };
+			
+			fromAccount.Balance -= amount;
+            context.Transactions.Add(transaction);
+
+            var recipientTransaction = new Transaction
+            {
+                AccountId = toAccount.AccountId,
+                Date = DateOnly.FromDateTime(DateTime.UtcNow),
+                Type = "Credit",
+                Operation = "Transfer In",
+                Amount = amount,
+                Balance = fromAccount.Balance + amount,
+                Symbol = comment
+            };
+
+			toAccount.Balance += amount;
+			context.Transactions.Add(recipientTransaction);
+
+            context.SaveChanges();
+            return ErrorCode.OK;
+        }
 		public AccountDetailsViewModel GetAccountDetails(int accountId, int skip = 0, int take = 20)
 		{
 			var context = _dataAccessService.GetDbContext();
