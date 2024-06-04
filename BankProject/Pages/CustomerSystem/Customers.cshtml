@@ -23,134 +23,141 @@
 					</div>
 				</div>
 			</form>
-			<!-- Results -->
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th scope="col">Customer Number</th>
-						<th scope="col">
-							Name
-							<a asp-page="/CustomerSystem/Customers"
-							   asp-route-sortColumn="Givenname"
-							   asp-route-sortOrder="asc"
-							   style="text-decoration:none">
-								<i class="fa-solid fa-angle-up"></i>
-							</a>
-							<a asp-page="/CustomerSystem/Customers"
-							   asp-route-sortColumn="Givenname"
-							   asp-route-sortOrder="desc"
-							   style="text-decoration:none">
-								<i class="fa-solid fa-angle-down"></i>
-							</a>
-						</th>
-@* 						<th scope="col">Surname</th> *@
-						<th scope="col">Streetaddress</th>
-						<th scope="col">
-							Customer City
-							<a asp-page="/CustomerSystem/Customers"
-							   asp-route-sortColumn="City"
-							   asp-route-sortOrder="asc"
-							   style="text-decoration:none">
-								<i class="fa-solid fa-angle-up"></i>
-							</a>
-							<a asp-page="/CustomerSystem/Customers"
-							   asp-route-sortColumn="City"
-							   asp-route-sortOrder="desc"
-							   style="text-decoration:none">
-								<i class="fa-solid fa-angle-down"></i>
-							</a>
-						</th>
-						<th scope="col">NationalId</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
 
-					@foreach (var cust in Model.Customers.Results)
-					{
+			@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+			{
+				<div class="alert alert-danger">@Model.ErrorMessage</div>
+			}
+            else
+            { 
+				<!-- Results -->
+				<table class="table table-striped">
+					<thead>
 						<tr>
-							<td>@cust.CustomerNumber</td>
-							<td>@cust.Givenname @cust.Surname</td>
-							<td>@cust.Streetaddress</td>
-							<td>@cust.City</td>
-							<td>
-								@if (string.IsNullOrEmpty(cust.NationalId))
-								{
-									<span>No National ID registered</span>
-								}
-								else
-								{
-									@cust.NationalId
-								}
-							</td>
-							<td><a asp-page="/CustomerSystem/CustomerDetails" asp-route-customerId="@cust.CustomerId" class="btn btn-primary">View</a></td>
-						</tr>
-					}
-		
-				</tbody>
-			</table>			
-			<div class="d-flex justify-content-center mt-4">
-				<nav>
-					<ul class="pagination">
-						@if (Model.CurrentPage != 1)
-						{
-							<li class="page-item mx-1">
-								<a class="btn btn-secondary"
-									asp-page="/CustomerSystem/Customers"
-									asp-route-sortColumn="@Model.SortColumn"
-									asp-route-sortOrder="@Model.SortOrder"
-									asp-route-pageNo="@(Model.CurrentPage-1)">
-									Prev
+							<th scope="col">Customer Number</th>
+							<th scope="col">
+								Name
+								<a asp-page="/CustomerSystem/Customers"
+								   asp-route-sortColumn="Givenname"
+								   asp-route-sortOrder="asc"
+								   style="text-decoration:none">
+									<i class="fa-solid fa-angle-up"></i>
 								</a>
-							</li>
+								<a asp-page="/CustomerSystem/Customers"
+								   asp-route-sortColumn="Givenname"
+								   asp-route-sortOrder="desc"
+								   style="text-decoration:none">
+									<i class="fa-solid fa-angle-down"></i>
+								</a>
+							</th>
+							<th scope="col">Streetaddress</th>
+							<th scope="col">
+								Customer City
+								<a asp-page="/CustomerSystem/Customers"
+								   asp-route-sortColumn="City"
+								   asp-route-sortOrder="asc"
+								   style="text-decoration:none">
+									<i class="fa-solid fa-angle-up"></i>
+								</a>
+								<a asp-page="/CustomerSystem/Customers"
+								   asp-route-sortColumn="City"
+								   asp-route-sortOrder="desc"
+								   style="text-decoration:none">
+									<i class="fa-solid fa-angle-down"></i>
+								</a>
+							</th>
+							<th scope="col">NationalId</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+
+						@foreach (var cust in Model.Customers.Results)
+						{
+							<tr>
+								<td>@cust.CustomerNumber</td>
+								<td>@cust.Givenname @cust.Surname</td>
+								<td>@cust.Streetaddress</td>
+								<td>@cust.City</td>
+								<td>
+									@if (string.IsNullOrEmpty(cust.NationalId))
+									{
+										<span>No National ID registered</span>
+									}
+									else
+									{
+										@cust.NationalId
+									}
+								</td>
+								<td><a asp-page="/CustomerSystem/CustomerDetails" asp-route-customerId="@cust.CustomerId" class="btn btn-primary">View</a></td>
+							</tr>
 						}
-
-                        @if (Model.PageCount > 10)
-                        {
-                            @for (int i = Math.Max(1, Model.CurrentPage - 4); i <= Math.Min(Model.CurrentPage + 5, Model.PageCount); i++)
-                            {
+		
+					</tbody>
+				</table>			
+				<div class="d-flex justify-content-center mt-4">
+					<nav>
+						<ul class="pagination">
+							@if (Model.CurrentPage != 1)
+							{
 								<li class="page-item mx-1">
-                                    <a class="btn @(Model.CurrentPage == i ? "btn-primary" : "btn-secondary")"
-                                       asp-page="/CustomerSystem/Customers"
-                                       asp-route-sortColumn="@Model.SortColumn"
-                                       asp-route-sortOrder="@Model.SortOrder"
-                                       asp-route-pageNo="@i">
-                                        @i
-                                    </a>
+									<a class="btn btn-secondary"
+										asp-page="/CustomerSystem/Customers"
+										asp-route-sortColumn="@Model.SortColumn"
+										asp-route-sortOrder="@Model.SortOrder"
+										asp-route-pageNo="@(Model.CurrentPage-1)">
+										Prev
+									</a>
 								</li>
-                            }
-                        }
-                        else
-                        {
-                            @for (int i = 1; i <= Model.PageCount; i++)
-                            {
-								<li class="page-item mx-1">
-                                    <a class="btn @(Model.CurrentPage == i ? "btn-primary" : "btn-secondary")"
-                                       asp-page="/CustomerSystem/Customers"
-                                       asp-route-sortColumn="@Model.SortColumn"
-                                       asp-route-sortOrder="@Model.SortOrder"
-                                       asp-route-pageNo="@i">
-                                        @i
-                                    </a>
-								</li>
-                            }
-                        }
+							}
 
-                        @if (Model.CurrentPage != Model.PageCount)
-                        {
-							<li class="page-item mx-1">
-                                <a class="btn btn-secondary"
-                                   asp-page="/CustomerSystem/Customers"
-                                   asp-route-sortColumn="@Model.SortColumn"
-                                   asp-route-sortOrder="@Model.SortOrder"
-                                   asp-route-pageNo="@(Model.CurrentPage + 1)">
-                                    Next
-                                </a>
-							</li>
-                        }
-					</ul>
-				</nav>
-			</div>
+							@if (Model.PageCount > 10)
+							{
+								@for (int i = Math.Max(1, Model.CurrentPage - 4); i <= Math.Min(Model.CurrentPage + 5, Model.PageCount); i++)
+								{
+									<li class="page-item mx-1">
+										<a class="btn @(Model.CurrentPage == i ? "btn-primary" : "btn-secondary")"
+										   asp-page="/CustomerSystem/Customers"
+										   asp-route-sortColumn="@Model.SortColumn"
+										   asp-route-sortOrder="@Model.SortOrder"
+										   asp-route-pageNo="@i">
+											@i
+										</a>
+									</li>
+								}
+							}
+							else
+							{
+								@for (int i = 1; i <= Model.PageCount; i++)
+								{
+									<li class="page-item mx-1">
+										<a class="btn @(Model.CurrentPage == i ? "btn-primary" : "btn-secondary")"
+										   asp-page="/CustomerSystem/Customers"
+										   asp-route-sortColumn="@Model.SortColumn"
+										   asp-route-sortOrder="@Model.SortOrder"
+										   asp-route-pageNo="@i">
+											@i
+										</a>
+									</li>
+								}
+							}
+
+							@if (Model.CurrentPage != Model.PageCount)
+							{
+								<li class="page-item mx-1">
+									<a class="btn btn-secondary"
+									   asp-page="/CustomerSystem/Customers"
+									   asp-route-sortColumn="@Model.SortColumn"
+									   asp-route-sortOrder="@Model.SortOrder"
+									   asp-route-pageNo="@(Model.CurrentPage + 1)">
+										Next
+									</a>
+								</li>
+							}
+						</ul>
+					</nav>
+				</div>
+			}
         </div>
     </div>
 </div>

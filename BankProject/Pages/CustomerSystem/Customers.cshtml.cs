@@ -23,6 +23,7 @@ namespace BankProject.Pages.CustomerSystem
         public string SortOrder { get; set; }
         public int PageCount { get; set; }
         public string SearchText { get; set; }
+        public string ErrorMessage { get; set; }
 
         public void OnGet(string sortColumn, string sortOrder, int pageNo, string searchText = null)
         {
@@ -39,12 +40,19 @@ namespace BankProject.Pages.CustomerSystem
 
                 Customers = _customerService.ReadCustomers(sortColumn, sortOrder, pageNo, searchText);
                 PageCount = Customers.PageCount;
-                var searchResult = _customerService.ReadCustomers(sortColumn, sortOrder, pageNo, searchText);
+
+                if (!Customers.Results.Any())
+                {
+                    ErrorMessage = "No customers found";
+                }
+
+                //var searchResult = _customerService.ReadCustomers(sortColumn, sortOrder, pageNo, searchText);
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
+                ErrorMessage = "An unexpected error occurred. Please try again later.";
             }
 
         }
