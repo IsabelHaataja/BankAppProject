@@ -60,7 +60,7 @@ namespace Services
 
             Console.WriteLine($"Amount received for validation: {accountId}, {amount}, {comment}");
 
-            if (amount < 100 || amount > 10000)
+			if (amount < 100 || amount > 10000)
 			{
 				return ErrorCode.IncorrectAmount;
 			}

@@ -1,4 +1,4 @@
-namespace BankProjectApi
+namespace BankAPI
 {
 	public class WeatherForecast
 	{
