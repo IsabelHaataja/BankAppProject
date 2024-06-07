@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "BatchProcessor": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
