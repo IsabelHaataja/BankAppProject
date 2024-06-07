@@ -12,12 +12,16 @@ namespace BankProject.Pages.Account
     public class AccountDetailsModel : PageModel
     {
         private readonly IAccountService _accountService;
-        public AccountDetailsModel(IAccountService accountService)
+        private readonly IAccountDetailsService _accountDetailsService;
+        public AccountDetailsModel(IAccountService accountService, IAccountDetailsService accountDetailsService)
         {
             _accountService = accountService;
+            _accountDetailsService = accountDetailsService;
         }
         public AccountDetailsViewModel AccountDetails { get; set; }
-        public void OnGet(int accountId)
+        public List<LoanViewModel> Loans { get; set; }
+        public List<PermanentOrderViewModel> PermanentOrders { get; set; }
+        public async Task<IActionResult> OnGetAsync(int accountId)
         {
             AccountDetails = _accountService.GetAccountDetails(accountId);
             if (AccountDetails == null)
@@ -25,6 +29,11 @@ namespace BankProject.Pages.Account
                 TempData["ErrorMessage"] = "Account not found.";
                 RedirectToPage("/Error");
             }
+
+            Loans = await _accountDetailsService.GetLoansByAccountIdAsync(accountId);
+            PermanentOrders = await _accountDetailsService.GetPermanentOrdersByAccountIdAsync(accountId);
+
+            return Page();
         }
         public IActionResult OnGetMoreTransactions(int accountId, int skip)
         {

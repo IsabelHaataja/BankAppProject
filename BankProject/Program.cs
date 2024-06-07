@@ -48,6 +48,7 @@ builder.Services.AddTransient<ICountryStatisticsService>(provider =>
         provider.GetRequiredService<DataAccessService>(),
         flagBasePath));
 builder.Services.AddTransient<IAccountService, AccountService>();
+builder.Services.AddTransient<IAccountDetailsService, AccountDetailsService>();
 
 //builder.Services.AddResponseCaching();
 

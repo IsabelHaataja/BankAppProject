@@ -24,6 +24,68 @@
         </div>
     </div>
     <div class="mt-4">
+        @if (Model.Loans != null && Model.Loans.Any())
+        {        
+            <h2>Loans</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Loan ID</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Duration</th>
+                        <th>Payments</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var loan in Model.Loans)
+                {
+                    <tr>
+                        <td>@loan.LoanId</td>
+                        <td>@loan.Date</td>
+                        <td>@loan.Amount</td>
+                        <td>@loan.Duration</td>
+                        <td>@loan.Payments</td>
+                        <td>@loan.Status</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+    </div>
+
+    <div class="mt-4">
+        @if (Model.PermanentOrders != null && Model.PermanentOrders.Any())
+        {        
+            <h2>Permanent Orders</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Bank To</th>
+                        <th>Account To</th>
+                        <th>Amount</th>
+                        <th>Symbol</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model.PermanentOrders)
+                    {
+                        <tr>
+                            <td>@order.OrderId</td>
+                            <td>@order.BankTo</td>
+                            <td>@order.AccountTo</td>
+                            <td>@order.Amount</td>
+                            <td>@order.Symbol</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>            
+        }
+
+    </div>
+    <div class="mt-4">
         <h2>Transactions</h2>
         <table class="table table-striped">
         <thread>
@@ -52,9 +114,11 @@
 
         </tbody>
         </table>    
-        <button id="loadMoreBtn" class="btn btn-primary" data-account-id="@Model.AccountDetails.AccountId">Load More</button>
+        <button id="loadMoreBtn" class="btn btn-primary mb-4" data-account-id="@Model.AccountDetails.AccountId">Load More</button>
     </div>
 </div>
+
+
 
 <!-- Deposit Modal -->
 <div class="modal fade" id="depositModal" tabindex="-1" role="dialog" aria-labelledby="depositModalLabel" aria-hidden="true">
