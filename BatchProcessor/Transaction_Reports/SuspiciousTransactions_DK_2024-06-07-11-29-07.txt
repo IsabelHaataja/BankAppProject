@@ -1,0 +1,2 @@
+CustomerId AccountId TransactionId Amount Date
+2 - 2 - 1056366 - 16000,00 - 2024-06-05
