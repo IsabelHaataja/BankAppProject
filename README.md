@@ -7,6 +7,7 @@
 - [Description](#description)
 - [Project Structure](#project-structure)
 - [Notes](#notes)
+- [Website](#url)
 
 ## Introduction
 This project is a Bank application with over 5000 simulated customers from Sweden, Finland, Norway and Denmark. A bootstrap template was used from StartBootstrap, custom styling and scripts were added. The project was made with Razor Pages using ASP.NET Core Identity which allows for a dynamic user experiance using authentication and authorization.
@@ -48,4 +49,6 @@ In the 'Account' section all the customers accounts and the total balance of the
 The app is deployed using Azure App Service, with Azure SQL Database for the database and an Azure SQL Database Server. The BatchProcessor is scheduled to run at 2:00 AM every night, using Azure WebJobs. All customers are simulated and not real.
 
 Thank you for reading and feel free to take a look at the BankApp!
-Url: https://bankapp-ih.azurewebsites.net/
+
+## Url
+https://bankapp-ih.azurewebsites.net/
