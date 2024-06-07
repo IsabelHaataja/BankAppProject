@@ -4277,7 +4277,7 @@ textarea.form-control-lg {
   border-top: 0;
 }
 .statistics {
-   --bs-card-height: 21rem;
+   --bs-card-height: 23rem;
    width: 10rem;
    margin-right: 2rem;
    margin-left: 2rem;

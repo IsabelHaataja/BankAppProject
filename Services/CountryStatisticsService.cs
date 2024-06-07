@@ -37,8 +37,8 @@ namespace Services
                 {
                     var customerIds = _dataAccessService.GetCustomerIdByCountry(country);
                     viewModel.NumberOfCustomers[country] = customerIds.Count();
-                    viewModel.NumberOfAccounts[country] = _dataAccessService.GetAccountCountByCountry(country); 
-                    viewModel.TotalBalance[country] = _dataAccessService.GetAccountCountByCountry(country);
+                    viewModel.NumberOfAccounts[country] = _dataAccessService.GetAccountCountByCountry(country);
+                    viewModel.TotalBalance[country] = _dataAccessService.GetTotalBalanceByCountry(customerIds);
                 }
 
                 return viewModel;
