@@ -31,17 +31,33 @@ namespace BatchProcessor
         {
             if (File.Exists(LastProcessedFilePath))
             {
-                var json = File.ReadAllText(LastProcessedFilePath);
-                var options = new JsonSerializerOptions { Converters = { new DateOnlyJsonConverter() } };
-                return JsonSerializer.Deserialize<Dictionary<string, DateOnly>>(json, options) ?? new Dictionary<string, DateOnly>();
+                try
+                {
+                    var json = File.ReadAllText(LastProcessedFilePath);
+                    var options = new JsonSerializerOptions { Converters = { new DateOnlyJsonConverter() } };
+                    return JsonSerializer.Deserialize<Dictionary<string, DateOnly>>(json, options) ?? new Dictionary<string, DateOnly>();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error reading last processed state: {ex.Message}");
+                    return new Dictionary<string, DateOnly>();
+                }
             }
             return new Dictionary<string, DateOnly>();
         }
         private void SaveLastProcessedState()
         {
-            var options = new JsonSerializerOptions { Converters = { new DateOnlyJsonConverter() } };
-            var json = JsonSerializer.Serialize(_lastProcessed, options);
-            File.WriteAllText(LastProcessedFilePath, json);
+            try
+            {
+                var options = new JsonSerializerOptions { Converters = { new DateOnlyJsonConverter() } };
+                var json = JsonSerializer.Serialize(_lastProcessed, options);
+                File.WriteAllText(LastProcessedFilePath, json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving last processed state: {ex.Message}");
+            }
+
         }
         public void ProcessTransactionsByCountry(Country country)
         {
@@ -49,6 +65,8 @@ namespace BatchProcessor
             {
                 Console.WriteLine($"Starting processing for country: {country}");
                 var lastProcessedDate = GetLastProcessedDate(country.GetCountryCode());
+                Console.WriteLine($"Last processed date for {country}: {lastProcessedDate}");                
+                
                 var suspiciousTransactions = new List<SuspiciousTransaction>();
 
                 var transactions = _context.Transactions
@@ -64,7 +82,7 @@ namespace BatchProcessor
                         Console.WriteLine($"Suspicious transaction found: TransactionId = {transaction.TransactionId}, Amount = {transaction.Amount}");
                         suspiciousTransactions.Add(new SuspiciousTransaction
                         {
-                            CustomerId = transaction.AccountNavigation.Dispositions.First().CustomerId, // Assuming there's at least one disposition per account
+                            CustomerId = transaction.AccountNavigation.Dispositions.First().CustomerId,
                             AccountId = transaction.AccountId,
                             TransactionId = transaction.TransactionId,
                             Amount = transaction.Amount,
@@ -98,6 +116,7 @@ namespace BatchProcessor
         }
         private void GenerateReport(string countryCode, List<SuspiciousTransaction> suspiciousTransactions)
         {
+            Console.WriteLine("Generating report ");
             var reportFileName = $"SuspiciousTransactions_{countryCode}_{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.txt";
             var reportDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Transaction_Reports");
             Directory.CreateDirectory(reportDirectory);
