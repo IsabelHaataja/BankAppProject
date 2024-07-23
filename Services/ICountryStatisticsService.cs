@@ -10,7 +10,7 @@ namespace Services
 {
     public interface ICountryStatisticsService
     {
-        CountryStatisticsViewModel GetStatisticsViewModel();
-        string GetFlagUrl(Country country);
+        //CountryStatisticsViewModel GetStatisticsViewModel();
+        //string GetFlagUrl(Country country);
     }
 }

@@ -20,28 +20,28 @@ namespace BankProject.Pages
 
 		public void OnGet()
 		{
-            try
-            {
-                CountryStatistics = _countryStatisticsService.GetStatisticsViewModel();
+            //try
+            //{
+            //    CountryStatistics = _countryStatisticsService.GetStatisticsViewModel();
 
-                if (CountryStatistics == null)
-                {
-                    Console.WriteLine("CountryStatisticsViewModel is null. An error occurred in retrieving statistics.");
-                    // Initialize an empty view model to avoid null reference
-                    CountryStatistics = new CountryStatisticsViewModel();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred while getting country statistics: {ex.Message}");
-                // Handle the error accordingly
-                CountryStatistics = new CountryStatisticsViewModel(); // Initialize an empty view model
-            }
+            //    if (CountryStatistics == null)
+            //    {
+            //        Console.WriteLine("CountryStatisticsViewModel is null. An error occurred in retrieving statistics.");
+            //        // Initialize an empty view model to avoid null reference
+            //        CountryStatistics = new CountryStatisticsViewModel();
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine($"An error occurred while getting country statistics: {ex.Message}");
+            //    // Handle the error accordingly
+            //    CountryStatistics = new CountryStatisticsViewModel(); // Initialize an empty view model
+            //}
 
         }
-		public string GetFlagUrl(Country country)
-        {
-            return _countryStatisticsService.GetFlagUrl(country);
-        }
+		//public string GetFlagUrl(Country country)
+  //      {
+  //          return _countryStatisticsService.GetFlagUrl(country);
+  //      }
 	}
 }

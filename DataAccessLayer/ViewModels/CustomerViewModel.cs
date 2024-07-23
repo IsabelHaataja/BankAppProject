@@ -13,7 +13,7 @@ namespace DataAccessLayer.ViewModels
 		public int CustomerId { get; set; }
         public int CustomerNumber { get; set; }
 
-        public Gender CustomerGender { get; set; }
+        //public Gender CustomerGender { get; set; }
 
 		public string Givenname { get; set; } = null!;
 
@@ -25,7 +25,7 @@ namespace DataAccessLayer.ViewModels
 
 		public string Zipcode { get; set; } = null!;
 
-		public Country CustomerCountry { get; set; }
+		//public Country CustomerCountry { get; set; }
 
 		public DateOnly? Birthday { get; set; }
 
@@ -36,7 +36,7 @@ namespace DataAccessLayer.ViewModels
 		public string? Telephonenumber { get; set; }
 
 		public string? Emailaddress { get; set; }
-		public virtual ICollection<Disposition> Dispositions { get; set; } = new List<Disposition>();
+		//public virtual ICollection<Disposition> Dispositions { get; set; } = new List<Disposition>();
 		public List<CustomerViewModel> Customers { get; set; }
 		public List<AccountViewModel> Accounts { get; set; }
 		public List<CardViewModel> Cards { get; set; }

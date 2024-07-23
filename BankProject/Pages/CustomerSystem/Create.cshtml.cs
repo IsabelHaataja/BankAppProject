@@ -23,21 +23,21 @@ namespace BankProject.Pages.CustomerSystem
         }
         private void FillGenderList()
         {
-            CreateCustomerRequest.Genders = Enum.GetValues<Gender>()
-                .Select(g => new SelectListItem
-                {
-                    Value = g.ToString(),
-                    Text = g.ToString()
-                }).ToList();
+            //CreateCustomerRequest.Genders = Enum.GetValues<Gender>()
+            //    .Select(g => new SelectListItem
+            //    {
+            //        Value = g.ToString(),
+            //        Text = g.ToString()
+            //    }).ToList();
         }
         private void FillCountryList()
         {
-            CreateCustomerRequest.Countries = Enum.GetValues<Country>()
-                .Select(g => new SelectListItem
-                {
-                    Value = g.ToString(),
-                    Text = g.ToString()
-                }).ToList();
+            //CreateCustomerRequest.Countries = Enum.GetValues<Country>()
+            //    .Select(g => new SelectListItem
+            //    {
+            //        Value = g.ToString(),
+            //        Text = g.ToString()
+            //    }).ToList();
         }
         public void OnGet()
         {
@@ -47,17 +47,17 @@ namespace BankProject.Pages.CustomerSystem
 
         public IActionResult OnPost()
         {
-            if (ModelState.IsValid)
-            {
-                var customer = new Customer();
-                _mapper.Map(CreateCustomerRequest, customer);
+            //if (ModelState.IsValid)
+            //{
+            //    var customer = new Customer();
+            //    _mapper.Map(CreateCustomerRequest, customer);
 
-                _customerService.SaveNew(customer);
+            //    _customerService.SaveNew(customer);
 
-                ViewData["Message"] = "Employee created successfully!";
+            //    ViewData["Message"] = "Employee created successfully!";
 
-                return RedirectToPage("Index");
-            }
+            //    return RedirectToPage("Index");
+            //}
 
             FillCountryList();
             FillGenderList();

@@ -7,7 +7,8 @@ public partial class Customer
 {
     public int CustomerId { get; set; }
 
-    public int? CustomerNumber { get; set; }
+    public string Gender { get; set; } = null!;
+
     public string Givenname { get; set; } = null!;
 
     public string Surname { get; set; } = null!;
@@ -18,6 +19,10 @@ public partial class Customer
 
     public string Zipcode { get; set; } = null!;
 
+    public string Country { get; set; } = null!;
+
+    public string CountryCode { get; set; } = null!;
+
     public DateOnly? Birthday { get; set; }
 
     public string? NationalId { get; set; }
@@ -27,10 +32,6 @@ public partial class Customer
     public string? Telephonenumber { get; set; }
 
     public string? Emailaddress { get; set; }
-
-    public int CustomerGender { get; set; }
-
-    public int CustomerCountry { get; set; }
 
     public virtual ICollection<Disposition> Dispositions { get; set; } = new List<Disposition>();
 }

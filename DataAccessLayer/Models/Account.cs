@@ -7,9 +7,7 @@ public partial class Account
 {
     public int AccountId { get; set; }
 
-	public string? AccountNumber { get; set; }
-
-	public string Frequency { get; set; } = null!;
+    public string Frequency { get; set; } = null!;
 
     public DateOnly Created { get; set; }
 

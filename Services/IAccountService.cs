@@ -11,7 +11,7 @@ namespace Services
 {
 	public interface IAccountService
 	{
-		Account GetAccount(int accountId);
+		//Account GetAccount(int accountId);
 		ErrorCode Withdraw(int accountId, decimal amount);
 		ErrorCode Deposit(int accountId, decimal amount, string comment);
 		ErrorCode Transfer(int fromAccountId, string toAccountNumber, decimal amount, string comment);

@@ -7,10 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<BankAppDataV2Context>(options =>
-	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+//builder.Services.AddDbContext<BankAppDataV2Context>(options =>
+//	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<Func<BankAppDataV2Context>>(provider => () => provider.GetService<BankAppDataV2Context>());
+//builder.Services.AddScoped<Func<BankAppDataV2Context>>(provider => () => provider.GetService<BankAppDataV2Context>());
 builder.Services.AddScoped<DataAccessService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
