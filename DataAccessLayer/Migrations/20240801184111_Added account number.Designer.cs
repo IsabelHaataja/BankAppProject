@@ -4,6 +4,7 @@ using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(BankAppDataContext))]
-    partial class BankAppDataContextModelSnapshot : ModelSnapshot
+    [Migration("20240801184111_Added account number")]
+    partial class Addedaccountnumber
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +52,7 @@ namespace DataAccessLayer.Migrations
                     b.HasKey("AccountId")
                         .HasName("PK_account");
 
-                    b.ToTable("Accounts", (string)null);
+                    b.ToTable("Accounts");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Card", b =>
@@ -99,7 +102,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("DispositionId");
 
-                    b.ToTable("Cards", (string)null);
+                    b.ToTable("Cards");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Customer", b =>
@@ -162,7 +165,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Disposition", b =>
@@ -191,7 +194,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Dispositions", (string)null);
+                    b.ToTable("Dispositions");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Loan", b =>
@@ -227,7 +230,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("Loans", (string)null);
+                    b.ToTable("Loans");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.PermenentOrder", b =>
@@ -313,7 +316,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex(new[] { "AccountId" }, "IX_Transactions_AccountId");
 
-                    b.ToTable("Transactions", (string)null);
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.User", b =>
