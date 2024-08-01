@@ -7,6 +7,7 @@ namespace DataAccessLayer.Models;
 public partial class Customer
 {
     public int CustomerId { get; set; }
+    public int CustomerNumber { get; set; }
 
     public Gender Gender { get; set; }
 
