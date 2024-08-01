@@ -11,10 +11,10 @@ namespace DataAccessLayer.Models
 {
 	public class DataInitializer
 	{
-		//private readonly BankAppDataV2Context _dbContext;
+		//private readonly BankAppDataContext _dbContext;
 		//private readonly UserManager<IdentityUser> _userManager;
 
-		//public DataInitializer(BankAppDataV2Context dbContext, UserManager<IdentityUser> userManager)
+		//public DataInitializer(BankAppDataContext dbContext, UserManager<IdentityUser> userManager)
 		//{
 		//	_dbContext = dbContext;
 		//	_userManager = userManager;

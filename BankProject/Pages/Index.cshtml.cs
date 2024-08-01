@@ -9,13 +9,13 @@ namespace BankProject.Pages
 	public class IndexModel : PageModel
 	{
 		private readonly ILogger<IndexModel> _logger;
-		private readonly ICountryStatisticsService _countryStatisticsService;
+		//private readonly ICountryStatisticsService _countryStatisticsService;
 		public CountryStatisticsViewModel CountryStatistics { get; set; }
 
-		public IndexModel(ILogger<IndexModel> logger, ICountryStatisticsService countryStatisticsService)
+		public IndexModel(ILogger<IndexModel> logger/*, ICountryStatisticsService countryStatisticsService*/)
 		{
 			_logger = logger;
-			_countryStatisticsService = countryStatisticsService;
+			//_countryStatisticsService = countryStatisticsService;
 		}
 
 		public void OnGet()

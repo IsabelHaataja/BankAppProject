@@ -8,6 +8,7 @@ public partial class Customer
     public int CustomerId { get; set; }
 
     public string Gender { get; set; } = null!;
+    public Gender GenderEnum { get; set; }
 
     public string Givenname { get; set; } = null!;
 
