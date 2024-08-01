@@ -71,8 +71,8 @@ public partial class BankAppDataContext : IdentityDbContext
         modelBuilder.Entity<Customer>(entity =>
         {
             entity.Property(e => e.City).HasMaxLength(100);
-            entity.Property(e => e.Country).HasMaxLength(100);
-            entity.Property(e => e.CountryCode).HasMaxLength(2);
+            //entity.Property(e => e.Country);
+            //entity.Property(e => e.CountryCode).HasMaxLength(2);
             entity.Property(e => e.Emailaddress).HasMaxLength(100);
             entity.Property(e => e.Gender);
             entity.Property(e => e.Givenname).HasMaxLength(100);

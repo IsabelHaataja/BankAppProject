@@ -20,10 +20,7 @@ public partial class Customer
 
     public string Zipcode { get; set; } = null!;
 
-    public string Country { get; set; } = null!;
-    public Country CountryEnum { get; set; }
-
-    public string CountryCode { get; set; } = null!;
+    public Country Country { get; set; }
 
     public DateOnly? Birthday { get; set; }
 
