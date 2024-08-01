@@ -16,6 +16,14 @@ namespace DataAccessLayer.Migrations
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
+
+            migrationBuilder.Sql(
+                @"UPDATE Customers SET GenderEnum = 
+                CASE 
+                    WHEN Gender = 'male' THEN 1 
+                    WHEN Gender = 'female' THEN 2 
+                    ELSE 3 
+                END");
         }
 
         /// <inheritdoc />
