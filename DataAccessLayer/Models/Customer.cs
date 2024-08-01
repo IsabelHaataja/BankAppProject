@@ -7,7 +7,7 @@ public partial class Customer
 {
     public int CustomerId { get; set; }
 
-    public Gender GenderEnum { get; set; }
+    public Gender Gender/*Enum*/ { get; set; }
 
     public string Givenname { get; set; } = null!;
 
