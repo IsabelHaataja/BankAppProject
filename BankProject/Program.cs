@@ -25,36 +25,36 @@ builder.Configuration
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-//builder.Services.AddDbContext<BankAppDataContext>(options =>
-//    options.UseSqlServer(connectionString));
-//builder.Services.AddScoped<Func<BankAppDataContext>>(sp => () => sp.GetRequiredService<BankAppDataContext>());
-//builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddDbContext<BankAppDataContext>(options =>
+    options.UseSqlServer(connectionString));
+builder.Services.AddScoped<Func<BankAppDataContext>>(sp => () => sp.GetRequiredService<BankAppDataContext>());
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//  .AddRoles<IdentityRole>()
-//  .AddEntityFrameworkStores<BankAppDataContext>();
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+  .AddRoles<IdentityRole>()
+  .AddEntityFrameworkStores<BankAppDataContext>();
 
 builder.Services.AddRazorPages();
 builder.Services.AddTransient<DataInitializer>();
 builder.Services.AddTransient<DataAccessService>();
-//builder.Services.AddTransient<ICustomerService, CustomerService>();
-//builder.Services.AddTransient<ICustomerDetails, CustomerDetailsService>();
+builder.Services.AddTransient<ICustomerService, CustomerService>();
+builder.Services.AddTransient<ICustomerDetails, CustomerDetailsService>();
 string flagBasePath = "/assets/img/flags";
-//builder.Services.AddTransient<ICountryStatisticsService>(provider =>
-//    new CountryStatisticsService(
-//        provider.GetRequiredService<DataAccessService>(),
-//        flagBasePath));
-//builder.Services.AddTransient<IAccountService, AccountService>();
-//builder.Services.AddTransient<IAccountDetailsService, AccountDetailsService>();
+builder.Services.AddTransient<ICountryStatisticsService>(provider =>
+    new CountryStatisticsService(
+        provider.GetRequiredService<DataAccessService>(),
+        flagBasePath));
+builder.Services.AddTransient<IAccountService, AccountService>();
+builder.Services.AddTransient<IAccountDetailsService, AccountDetailsService>();
 
 
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    //scope.ServiceProvider.GetService<DataInitializer>().SeedData();
+    scope.ServiceProvider.GetService<DataInitializer>().SeedData();
 }
 
 // Configure the HTTP request pipeline.

@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Customer Details";
 }
-@* 
+
 <div class="container" id="CustomerDetails">
     <div class="d-flex align-items-center mb-3 mt-5">
         <a href="#" class="btn btn-secondary me-3" onclick="history.back(); return false;"><i class="fa-solid fa-arrow-left fa-lg"></i></a>
@@ -17,8 +17,8 @@
                     {
                         <h2><strong>@Model.ChosenCustomer.Givenname @Model.ChosenCustomer.Surname</strong></h2>
                         <p><strong>Customer Number:</strong> @Model.ChosenCustomer.CustomerNumber</p>
-                        <p><strong>Gender:</strong> @Model.ChosenCustomer.CustomerGender</p>
-                        <p><strong>Address:</strong> @Model.ChosenCustomer.Streetaddress, @Model.ChosenCustomer.Zipcode, @Model.ChosenCustomer.City, @Model.ChosenCustomer.CustomerCountry</p>
+                        <p><strong>Gender:</strong> @Model.ChosenCustomer.Gender</p>
+                        <p><strong>Address:</strong> @Model.ChosenCustomer.Streetaddress, @Model.ChosenCustomer.Zipcode, @Model.ChosenCustomer.City, @Model.ChosenCustomer.Country</p>
                         <p><strong>Birthday:</strong> @Model.ChosenCustomer.Birthday</p>
                         <p><strong>National Id:</strong>
                             @if (string.IsNullOrEmpty(Model.ChosenCustomer.NationalId))
@@ -80,4 +80,4 @@
             </div>
         </div>
     </div>
-</div> *@
+</div>

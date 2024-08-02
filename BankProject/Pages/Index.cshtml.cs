@@ -9,39 +9,37 @@ namespace BankProject.Pages
 	public class IndexModel : PageModel
 	{
 		private readonly ILogger<IndexModel> _logger;
-		//private readonly ICountryStatisticsService _countryStatisticsService;
-		public CountryStatisticsViewModel CountryStatistics { get; set; }
+        private readonly ICountryStatisticsService _countryStatisticsService;
+        public CountryStatisticsViewModel CountryStatistics { get; set; }
 
-		public IndexModel(ILogger<IndexModel> logger/*, ICountryStatisticsService countryStatisticsService*/)
+		public IndexModel(ILogger<IndexModel> logger, ICountryStatisticsService countryStatisticsService)
 		{
 			_logger = logger;
-			//_countryStatisticsService = countryStatisticsService;
-		}
+            _countryStatisticsService = countryStatisticsService;
+        }
 
 		public void OnGet()
 		{
-            //try
-            //{
-            //    CountryStatistics = _countryStatisticsService.GetStatisticsViewModel();
+            try
+            {
+                CountryStatistics = _countryStatisticsService.GetStatisticsViewModel();
 
-            //    if (CountryStatistics == null)
-            //    {
-            //        Console.WriteLine("CountryStatisticsViewModel is null. An error occurred in retrieving statistics.");
-            //        // Initialize an empty view model to avoid null reference
-            //        CountryStatistics = new CountryStatisticsViewModel();
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine($"An error occurred while getting country statistics: {ex.Message}");
-            //    // Handle the error accordingly
-            //    CountryStatistics = new CountryStatisticsViewModel(); // Initialize an empty view model
-            //}
+                if (CountryStatistics == null)
+                {
+                    Console.WriteLine("CountryStatisticsViewModel is null. An error occurred in retrieving statistics.");
+                    CountryStatistics = new CountryStatisticsViewModel();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while getting country statistics: {ex.Message}");
+                CountryStatistics = new CountryStatisticsViewModel();
+            }
 
         }
-		//public string GetFlagUrl(Country country)
-  //      {
-  //          return _countryStatisticsService.GetFlagUrl(country);
-  //      }
-	}
+        public string GetFlagUrl(Country country)
+        {
+            return _countryStatisticsService.GetFlagUrl(country);
+        }
+    }
 }

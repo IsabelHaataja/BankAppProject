@@ -10,44 +10,44 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public class CountryStatisticsService /*: ICountryStatisticsService*/
+    public class CountryStatisticsService : ICountryStatisticsService
     {
-        //private readonly DataAccessService _dataAccessService;
-        //private readonly string _flagBasePath;
-        //public CountryStatisticsService (DataAccessService dataAccessService, string flagBasePath)
-        //{
-        //    _dataAccessService = dataAccessService;
-        //    _flagBasePath = flagBasePath;
-        //}
+        private readonly DataAccessService _dataAccessService;
+        private readonly string _flagBasePath;
+        public CountryStatisticsService(DataAccessService dataAccessService, string flagBasePath)
+        {
+            _dataAccessService = dataAccessService;
+            _flagBasePath = flagBasePath;
+        }
 
-        //public string GetFlagUrl(Country country)
-        //{
+        public string GetFlagUrl(Country country)
+        {
 
-        //    return $"{_flagBasePath}/{country.ToString().ToLower()}.svg";
-        //}
-    
-        //public CountryStatisticsViewModel GetStatisticsViewModel()
-        //{
-        //    try
-        //    {
-        //        var viewModel = new CountryStatisticsViewModel();
-        //        var countries = Enum.GetValues(typeof(Country)).Cast<Country>().Skip(1);
+            return $"{_flagBasePath}/{country.ToString().ToLower()}.svg";
+        }
 
-        //        foreach (var country in countries)
-        //        {
-        //            var customerIds = _dataAccessService.GetCustomerIdByCountry(country);
-        //            viewModel.NumberOfCustomers[country] = customerIds.Count();
-        //            viewModel.NumberOfAccounts[country] = _dataAccessService.GetAccountCountByCountry(country);
-        //            viewModel.TotalBalance[country] = _dataAccessService.GetTotalBalanceByCountry(customerIds);
-        //        }
+        public CountryStatisticsViewModel GetStatisticsViewModel()
+        {
+            try
+            {
+                var viewModel = new CountryStatisticsViewModel();
+                var countries = Enum.GetValues(typeof(Country)).Cast<Country>().Skip(1);
 
-        //        return viewModel;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine("Exception in GetStatisticsViewModel: " + ex.Message);
-        //        return new CountryStatisticsViewModel(); ;
-        //    }
-        //}
+                foreach (var country in countries)
+                {
+                    var customerIds = _dataAccessService.GetCustomerIdByCountry(country);
+                    viewModel.NumberOfCustomers[country] = customerIds.Count();
+                    viewModel.NumberOfAccounts[country] = _dataAccessService.GetAccountCountByCountry(country);
+                    viewModel.TotalBalance[country] = _dataAccessService.GetTotalBalanceByCountry(customerIds);
+                }
+
+                return viewModel;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception in GetStatisticsViewModel: " + ex.Message);
+                return new CountryStatisticsViewModel(); ;
+            }
+        }
     }
 }
