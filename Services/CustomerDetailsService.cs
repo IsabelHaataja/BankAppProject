@@ -51,6 +51,11 @@ namespace Services
 			//    }).ToListAsync();
 			return viewModel;
 		}
-	}
+        public string FormatCardNumber(string cardNumber)
+        {
+            return string.Join(" ", Enumerable.Range(0, cardNumber.Length / 4)
+                .Select(i => cardNumber.Substring(i * 4, 4)));
+        }
+    }
 }
 

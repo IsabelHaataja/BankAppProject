@@ -10,5 +10,6 @@ namespace Services
 	public interface ICustomerDetails
 	{
 		Task<CustomerViewModel> GetCustomerAsync(int customerId);
-	}
+		string FormatCardNumber(string cardNumber);
+    }
 }

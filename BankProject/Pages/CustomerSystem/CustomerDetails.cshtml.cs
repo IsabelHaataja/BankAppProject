@@ -22,5 +22,9 @@ namespace BankProject.Pages.CustomerSystem
 		{
 			ChosenCustomer = await _customerDetails.GetCustomerAsync(CustomerId);
         }
-	}
+        public string FormatCardNumber(string cardNumber)
+        {
+            return _customerDetails.FormatCardNumber(cardNumber);
+        }
+    }
 }
