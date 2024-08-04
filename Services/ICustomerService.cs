@@ -15,8 +15,5 @@ namespace Services
         int SaveNew(Customer customer);
         void Update();
         Customer GetCustomer(int customerId);
-        void AssignAccountNumbers();
-        void AssignUniqueAccountNumbers();
-
     }
 }
