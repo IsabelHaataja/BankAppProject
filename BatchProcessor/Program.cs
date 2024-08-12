@@ -31,44 +31,44 @@ namespace BatchProcessor
                 .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
                 .Build();
 
-            //var serviceProvider = new ServiceCollection()
-            //    .AddDbContext<BankAppDataV2Context>(options =>
-            //        options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")))
-            //    .AddScoped<BatchProcessor>()
-            //    .AddSingleton(configuration)
-            //    .AddLogging(configure => configure.AddConsole())
-            //    .BuildServiceProvider();
+            var serviceProvider = new ServiceCollection()
+                .AddDbContext<BankAppDataContext>(options =>
+                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")))
+                .AddScoped<BatchProcessor>()
+                .AddSingleton(configuration)
+                .AddLogging(configure => configure.AddConsole())
+                .BuildServiceProvider();
 
-            //using (var scope = serviceProvider.CreateScope())
-            //{
-            //    var batchProcessor = scope.ServiceProvider.GetRequiredService<BatchProcessor>();
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var batchProcessor = scope.ServiceProvider.GetRequiredService<BatchProcessor>();
 
-            //    var countries = Enum.GetValues(typeof(Country))
-            //        .Cast<Country>()
-            //        .Where(c => c != Country.Choose)
-            //        .ToList();
+                var countries = Enum.GetValues(typeof(Country))
+                    .Cast<Country>()
+                    .Where(c => c != Country.Choose)
+                    .ToList();
 
-            //    foreach (var country in countries)
-            //    {
-            //        Console.WriteLine($"Processing transactions for country: {(Country)country}");
-            //        batchProcessor.ProcessTransactionsByCountry(country);
-            //    }
+                foreach (var country in countries)
+                {
+                    Console.WriteLine($"Processing transactions for country: {(Country)country}");
+                    batchProcessor.ProcessTransactionsByCountry(country);
+                }
 
-            //    Console.WriteLine("Batch processing completed.");
+                Console.WriteLine("Batch processing completed.");
 
-            //    var host = new HostBuilder()
-            //    .ConfigureServices((context, services) =>
-            //    {
-            //        services.AddDbContext<BankAppDataV2Context>();
-            //        services.AddScoped<BatchProcessor>();
-            //    })
-            //    .Build();
+                var host = new HostBuilder()
+                .ConfigureServices((context, services) =>
+                {
+                    services.AddDbContext<BankAppDataContext>();
+                    services.AddScoped<BatchProcessor>();
+                })
+                .Build();
 
-            //    using (host)
-            //    {
-            //        host.Run();
-            //    }
-            //}
+                using (host)
+                {
+                    host.Run();
+                }
+            }
         }
 
         public static class JsonOptions
