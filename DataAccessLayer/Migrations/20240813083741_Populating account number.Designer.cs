@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(BankAppDataContext))]
-    [Migration("20240812114607_Edited account number generator")]
-    partial class Editedaccountnumbergenerator
+    [Migration("20240813083741_Populating account number")]
+    partial class Populatingaccountnumber
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

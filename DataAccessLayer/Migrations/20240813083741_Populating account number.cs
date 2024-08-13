@@ -5,15 +5,11 @@
 namespace DataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class Editedaccountnumbergenerator : Migration
+    public partial class Populatingaccountnumber : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropIndex(
-                name: "IX_Accounts_AccountNumber",
-                table: "Accounts");
-
             migrationBuilder.Sql(@"
                 DECLARE @UniqueAccountNumber NVARCHAR(11);
                 DECLARE @Id INT;
