@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using DataAccessLayer.Models.CountrySystem;
 
 namespace Services
 {
@@ -85,6 +86,17 @@ namespace Services
             var pagedCustomers = query.Select(c => _mapper.Map<CustomerSearchViewModel>(c))
                                       .GetPaged(page, 50);
             return pagedCustomers;
+        }
+        public async Task<List<Customer>> GetUsersByCountryAsync(Country country)
+        {
+            using (var dbContext = _dataAccessService.GetDbContext())
+            {
+                return await dbContext.Customers
+                .Where(c => c.Country == country)
+                .Include(c => c.Dispositions)
+                .ThenInclude(d => d.Account)
+                .ToListAsync();
+            }
         }
     }
 }
