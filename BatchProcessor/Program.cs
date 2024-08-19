@@ -17,6 +17,7 @@ using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Hosting;
 using Services;
 using AutoMapper;
+using DataAccessLayer;
 
 namespace BatchProcessor
 {
@@ -24,79 +25,69 @@ namespace BatchProcessor
 	{
         public static async Task Main(string[] args)
         {
+            var countries = new[] { Country.Sweden, Country.Finland, Country.Norway, Country.Denmark };
 
+            var serviceProvider = new ServiceCollection()
+                .AddDbContext<BankAppDataContext>(options =>
+                    options.UseSqlServer("YourConnectionStringHere"), ServiceLifetime.Scoped)
+                .AddScoped<Func<BankAppDataContext>>(provider =>
+                    () => provider.GetService<BankAppDataContext>())
+                .AddSingleton<DataAccessService>()
+                .AddAutoMapper(typeof(Program))
+                .AddTransient<TransactionService>()
+                .AddTransient<LastProcessedService>()
+                .BuildServiceProvider();
 
+            var transactionService = serviceProvider.GetService<TransactionService>();
+            var lastProcessedService = serviceProvider.GetService<LastProcessedService>();
 
-            //    Console.WriteLine("Batch processing started.");
+            try
+            {
+                foreach (var country in countries)
+                {
+                    Console.WriteLine($"Batch processor started for {country}");
+                    var users = await transactionService.GetCustomersByCountryAsync(country);
+                    var report = new StringWriter();
+                    bool hasSuspiciousTransactions = false;
 
-            //    var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
-            //    var configuration = new ConfigurationBuilder()
-            //        .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-            //        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-            //        .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
-            //        .Build();
+                    foreach (var user in users)
+                    {
+                        var lastProcessedDate = await lastProcessedService.GetLastProcessedDateForCustomer(user.CustomerId);
+                        var suspiciousTransactions = await transactionService.GetSuspiciousTransactionsForCustomer(user.CustomerId, lastProcessedDate, users.Count == 0);
 
-            //    var serviceProvider = new ServiceCollection()
-            //        .AddDbContext<BankAppDataContext>(options =>
-            //            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")))
-            //        .AddScoped<BatchProcessor>()
-            //        .AddSingleton(configuration)
-            //        .AddLogging(configure => configure.AddConsole())
-            //        .BuildServiceProvider();
+                        if (suspiciousTransactions.Any())
+                        {
+                            hasSuspiciousTransactions = true;
+                            foreach (var transaction in suspiciousTransactions)
+                            {
+                                report.WriteLine($"Customer: {user.Givenname} {user.Surname}, Account: {transaction.AccountNavigation.AccountNumber}, Transaction: {transaction.TransactionId}");
+                            }
+                        }
 
-            //    using (var scope = serviceProvider.CreateScope())
-            //    {
-            //        var batchProcessor = scope.ServiceProvider.GetRequiredService<BatchProcessor>();
+                        await lastProcessedService.UpdateLastProcessedDateForCustomer(user.CustomerId, DateTime.UtcNow);
+                    }
 
-            //        var countries = Enum.GetValues(typeof(Country))
-            //            .Cast<Country>()
-            //            .Where(c => c != Country.Choose)
-            //            .ToList();
+                    var reportPath = $"SuspiciousReport_{country}_{DateTime.UtcNow:yyyyMMdd}.txt";
+                    if (hasSuspiciousTransactions)
+                    {                         
 
-            //        foreach (var country in countries)
-            //        {
-            //            Console.WriteLine($"Processing transactions for country: {(Country)country}");
-            //            batchProcessor.ProcessTransactionsByCountry(country);
-            //        }
-
-            //        Console.WriteLine("Batch processing completed.");
-
-            //        var host = new HostBuilder()
-            //        .ConfigureServices((context, services) =>
-            //        {
-            //            services.AddDbContext<BankAppDataContext>();
-            //            services.AddScoped<BatchProcessor>();
-            //        })
-            //        .Build();
-
-            //        using (host)
-            //        {
-            //            host.Run();
-            //        }
-            //    }
-            //}
-
-            //public static class JsonOptions
-            //{
-            //    public static JsonSerializerOptions Default { get; } = new JsonSerializerOptions
-            //    {
-            //        Converters = { new DateOnlyJsonConverter() }
-            //    };
-            //}
-
-            //public class CustomJobActivator : IJobActivator
-            //{
-            //    private readonly IServiceProvider _serviceProvider;
-
-            //    public CustomJobActivator(IServiceProvider serviceProvider)
-            //    {
-            //        _serviceProvider = serviceProvider;
-            //    }
-
-            //    public T CreateInstance<T>()
-            //    {
-            //        return _serviceProvider.GetService<T>();
-            //    }
+                        await File.WriteAllTextAsync(reportPath, report.ToString());
+                        Console.WriteLine($"Report for {country} saved to {reportPath}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"No suspicious transactions found for {country}.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+                }
+            }
         }
     }
 }
