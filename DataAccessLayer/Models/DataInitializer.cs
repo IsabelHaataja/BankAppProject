@@ -61,5 +61,5 @@ namespace DataAccessLayer.Models
 			_userManager.CreateAsync(user, password).Wait();
 			_userManager.AddToRolesAsync(user, roles).Wait();
 		}
-	}
+    }
 }
