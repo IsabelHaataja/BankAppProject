@@ -87,16 +87,16 @@ namespace Services
                                       .GetPaged(page, 50);
             return pagedCustomers;
         }
-        public async Task<List<Customer>> GetUsersByCountryAsync(Country country)
-        {
-            using (var dbContext = _dataAccessService.GetDbContext())
-            {
-                return await dbContext.Customers
-                .Where(c => c.Country == country)
-                .Include(c => c.Dispositions)
-                .ThenInclude(d => d.Account)
-                .ToListAsync();
-            }
-        }
+        //public async Task<List<Customer>> GetUsersByCountryAsync(Country country)
+        //{
+        //    using (var dbContext = _dataAccessService.GetDbContext())
+        //    {
+        //        return await dbContext.Customers
+        //        .Where(c => c.Country == country)
+        //        .Include(c => c.Dispositions)
+        //        .ThenInclude(d => d.Account)
+        //        .ToListAsync();
+        //    }
+        //}
     }
 }
