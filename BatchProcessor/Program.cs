@@ -15,6 +15,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Hosting;
+using Services;
+using AutoMapper;
 
 namespace BatchProcessor
 {
@@ -22,76 +24,79 @@ namespace BatchProcessor
 	{
         public static async Task Main(string[] args)
         {
-            Console.WriteLine("Batch processing started.");
 
-            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
-                .Build();
 
-            var serviceProvider = new ServiceCollection()
-                .AddDbContext<BankAppDataContext>(options =>
-                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")))
-                .AddScoped<BatchProcessor>()
-                .AddSingleton(configuration)
-                .AddLogging(configure => configure.AddConsole())
-                .BuildServiceProvider();
 
-            using (var scope = serviceProvider.CreateScope())
-            {
-                var batchProcessor = scope.ServiceProvider.GetRequiredService<BatchProcessor>();
+            //    Console.WriteLine("Batch processing started.");
 
-                var countries = Enum.GetValues(typeof(Country))
-                    .Cast<Country>()
-                    .Where(c => c != Country.Choose)
-                    .ToList();
+            //    var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+            //    var configuration = new ConfigurationBuilder()
+            //        .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            //        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            //        .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
+            //        .Build();
 
-                foreach (var country in countries)
-                {
-                    Console.WriteLine($"Processing transactions for country: {(Country)country}");
-                    batchProcessor.ProcessTransactionsByCountry(country);
-                }
+            //    var serviceProvider = new ServiceCollection()
+            //        .AddDbContext<BankAppDataContext>(options =>
+            //            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")))
+            //        .AddScoped<BatchProcessor>()
+            //        .AddSingleton(configuration)
+            //        .AddLogging(configure => configure.AddConsole())
+            //        .BuildServiceProvider();
 
-                Console.WriteLine("Batch processing completed.");
+            //    using (var scope = serviceProvider.CreateScope())
+            //    {
+            //        var batchProcessor = scope.ServiceProvider.GetRequiredService<BatchProcessor>();
 
-                var host = new HostBuilder()
-                .ConfigureServices((context, services) =>
-                {
-                    services.AddDbContext<BankAppDataContext>();
-                    services.AddScoped<BatchProcessor>();
-                })
-                .Build();
+            //        var countries = Enum.GetValues(typeof(Country))
+            //            .Cast<Country>()
+            //            .Where(c => c != Country.Choose)
+            //            .ToList();
 
-                using (host)
-                {
-                    host.Run();
-                }
-            }
-        }
+            //        foreach (var country in countries)
+            //        {
+            //            Console.WriteLine($"Processing transactions for country: {(Country)country}");
+            //            batchProcessor.ProcessTransactionsByCountry(country);
+            //        }
 
-        public static class JsonOptions
-        {
-            public static JsonSerializerOptions Default { get; } = new JsonSerializerOptions
-            {
-                Converters = { new DateOnlyJsonConverter() }
-            };
-        }
+            //        Console.WriteLine("Batch processing completed.");
 
-        public class CustomJobActivator : IJobActivator
-        {
-            private readonly IServiceProvider _serviceProvider;
+            //        var host = new HostBuilder()
+            //        .ConfigureServices((context, services) =>
+            //        {
+            //            services.AddDbContext<BankAppDataContext>();
+            //            services.AddScoped<BatchProcessor>();
+            //        })
+            //        .Build();
 
-            public CustomJobActivator(IServiceProvider serviceProvider)
-            {
-                _serviceProvider = serviceProvider;
-            }
+            //        using (host)
+            //        {
+            //            host.Run();
+            //        }
+            //    }
+            //}
 
-            public T CreateInstance<T>()
-            {
-                return _serviceProvider.GetService<T>();
-            }
+            //public static class JsonOptions
+            //{
+            //    public static JsonSerializerOptions Default { get; } = new JsonSerializerOptions
+            //    {
+            //        Converters = { new DateOnlyJsonConverter() }
+            //    };
+            //}
+
+            //public class CustomJobActivator : IJobActivator
+            //{
+            //    private readonly IServiceProvider _serviceProvider;
+
+            //    public CustomJobActivator(IServiceProvider serviceProvider)
+            //    {
+            //        _serviceProvider = serviceProvider;
+            //    }
+
+            //    public T CreateInstance<T>()
+            //    {
+            //        return _serviceProvider.GetService<T>();
+            //    }
         }
     }
 }
