@@ -21,5 +21,9 @@ namespace BatchProcessor
         private readonly TransactionService transactionService;
         private readonly LastProcessedService lastProcessedService;
 
+        public void ProcessTransactions()
+        {
+
+        }
     }
 }

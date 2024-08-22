@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public class LastProcessedService
+    public class LastProcessedService : ILastProcessedService
     {
         private readonly BankAppDataContext _bankAppDataContext;
         public LastProcessedService(BankAppDataContext bankAppDataContext)

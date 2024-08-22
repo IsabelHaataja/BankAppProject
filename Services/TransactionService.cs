@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public class TransactionService
+    public class TransactionService : ITransactionService
     {
         private readonly BankAppDataContext _bankAppDataContext;
 
