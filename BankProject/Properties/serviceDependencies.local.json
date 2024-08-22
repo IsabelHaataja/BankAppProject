@@ -5,8 +5,13 @@
       "connectionId": "ConnectionStrings:DefaultConnection"
     },
     "mssql2": {
-      "type": "mssql.local",
+      "ignored": "true",
+      "type": "mssql",
       "connectionId": "ConnectionStrings:BankProjectContextConnection"
+    },
+    "sqlite1": {
+      "ignored": "true",
+      "type": "sqlite"
     }
   }
 }
