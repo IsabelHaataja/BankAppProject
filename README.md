@@ -10,7 +10,7 @@
 - [Website](#url)
 
 ## Introduction
-This project is a Bank application with over 5000 simulated customers from Sweden, Finland, Norway and Denmark. A bootstrap template was used from StartBootstrap, custom styling and scripts were added. The project was made with Razor Pages using ASP.NET Core Identity which allows for a dynamic user experiance using authentication and authorization.
+This project is a Bank application using a database with over 5000 simulated customers from Sweden, Finland, Norway and Denmark (database-first, the db will not be created locally when running the app). A bootstrap template was used from StartBootstrap, custom styling and scripts were added. The project was made with Razor Pages using ASP.NET Core Identity which allows for a dynamic user experiance using authentication and authorization.
 
 ## Features
 - statistics based on each country
