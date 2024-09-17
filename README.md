@@ -52,3 +52,12 @@ Thank you for reading and feel free to take a look at the BankApp!
 
 ## Url
 https://bankapp-ih.azurewebsites.net/
+
+**Login**
+richard.chalk@systementor.se
+pw: Hejsan123# 
+role: Admin
+
+richard.erdos.chalk@gmail.se
+pw: Hejsan123#
+role: Cashier
